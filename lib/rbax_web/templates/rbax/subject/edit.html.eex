@@ -1,5 +1,8 @@
 <h1><%= gettext "Edit Subject" %></h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.subject_path(@conn, :update, @subject)) %>
-
-<span><%= link gettext("Back"), to: Routes.subject_path(@conn, :index) %></span>
+<%= 
+  render "form.html", 
+    action: Routes.subject_path(@conn, :update, @subject), 
+    changeset: @changeset,
+    cancel: Routes.subject_path(@conn, :show, @subject)
+%>

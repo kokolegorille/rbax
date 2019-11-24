@@ -1,5 +1,8 @@
 <h1><%= gettext "New Object" %></h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.object_path(@conn, :create)) %>
-
-<span><%= link gettext("Cancel"), to: Routes.object_path(@conn, :index) %></span>
+<%= 
+  render "form.html", 
+    action: Routes.object_path(@conn, :create), 
+    changeset: @changeset,
+    cancel: Routes.object_path(@conn, :index)
+%>

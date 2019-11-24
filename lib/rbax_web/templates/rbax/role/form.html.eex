@@ -15,6 +15,9 @@
   </div>
 
   <div>
-    <%= submit "Submit" %>
+    <%= submit "Submit" %> <%= gettext "or" %> 
+    <%= if assigns[:cancel] do %>
+      <%= link gettext("Cancel"), to: @cancel %>
+    <% end %>
   </div>
 <% end %>

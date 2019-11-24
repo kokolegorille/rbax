@@ -1,5 +1,8 @@
 <h1><%= gettext "Edit Domain" %></h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.domain_path(@conn, :update, @domain)) %>
-
-<span><%= link gettext("Back"), to: Routes.domain_path(@conn, :index) %></span>
+<%= 
+  render "form.html", 
+    action: Routes.domain_path(@conn, :update, @domain), 
+    changeset: @changeset,
+    cancel: Routes.domain_path(@conn, :show, @domain)
+%>

@@ -1,3 +1,12 @@
 <h1><%= @role.name %></h1>
 
-<%= link gettext("Index"), to: Routes.role_path(@conn, :index) %>
+<div>
+  <%= link gettext("Index"), to: Routes.role_path(@conn, :index) %> | 
+  <%= link gettext("Edit"), to: Routes.role_path(@conn, :edit, @role) %> | 
+  <%= 
+    link gettext("Delete"), 
+      to: Routes.role_path(@conn, :delete, @role), 
+      method: :delete, 
+      data: [confirm: gettext("Are you sure?")]
+  %>  
+</div>

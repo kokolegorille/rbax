@@ -1,3 +1,12 @@
 <h1><%= @domain.name %></h1>
 
-<%= link gettext("Index"), to: Routes.domain_path(@conn, :index) %>
+<div>
+  <%= link gettext("Index"), to: Routes.domain_path(@conn, :index) %> | 
+  <%= link gettext("Edit"), to: Routes.domain_path(@conn, :edit, @domain) %> | 
+  <%= 
+    link gettext("Delete"), 
+      to: Routes.domain_path(@conn, :delete, @domain), 
+      method: :delete, 
+      data: [confirm: gettext("Are you sure?")]
+  %>  
+</div>

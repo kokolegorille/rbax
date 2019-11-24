@@ -1,5 +1,8 @@
 <h1><%= gettext "Edit Permission" %></h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.permission_path(@conn, :update, @permission)) %>
-
-<span><%= link gettext("Back"), to: Routes.permission_path(@conn, :index) %></span>
+<%= 
+  render "form.html", 
+    action: Routes.permission_path(@conn, :update, @permission), 
+    changeset: @changeset,
+    cancel: Routes.permission_path(@conn, :show, @permission)
+%>

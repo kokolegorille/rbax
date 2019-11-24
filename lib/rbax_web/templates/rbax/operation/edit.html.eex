@@ -1,5 +1,8 @@
 <h1><%= gettext "Edit Operation" %></h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.operation_path(@conn, :update, @operation)) %>
-
-<span><%= link gettext("Back"), to: Routes.operation_path(@conn, :index) %></span>
+<%= 
+  render "form.html", 
+    action: Routes.operation_path(@conn, :update, @operation), 
+    changeset: @changeset,
+    cancel: Routes.operation_path(@conn, :show, @operation)
+%>
