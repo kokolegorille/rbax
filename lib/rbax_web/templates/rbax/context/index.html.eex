@@ -3,13 +3,34 @@
 <%= link gettext("New"), to: Routes.context_path(@conn, :new) %>
 
 <%= if length(@contexts) > 0 do %>
-  <ul>
-  <%= for context <- @contexts do %>
-    <li>
-      <%= link context.name, to: Routes.context_path(@conn, :show, context.id) %>
-    </li>
-  <% end %>  
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th><%= gettext("Name") %></th>
+        <th><%= gettext("Rule") %></th>
+        <th><%= gettext("Filter") %></th>
+        <th><%= gettext("Actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for context <- @contexts do %>
+        <tr>
+          <td><%= context.name %></td>
+          <td><%= context.rule %></td>
+          <td><%= context.filter %></td>
+          <td>
+            <%= link gettext("Edit"), to: Routes.context_path(@conn, :edit, context) %> | 
+            <%= 
+              link gettext("Delete"), 
+                to: Routes.context_path(@conn, :delete, context), 
+                method: :delete, 
+                data: [confirm: gettext("Are you sure?")]
+            %>  
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <p><%= gettext("The list is empty.") %></p>
 <% end %>

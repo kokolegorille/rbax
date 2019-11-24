@@ -6,6 +6,7 @@ defmodule RbaxWeb.Rbax.RoleController do
 
   def index(conn, _params) do
     roles =  Entities.list_roles()
+    |> preload_subjects()
     render(conn, "index.html", roles: roles)
   end
 
@@ -21,9 +22,6 @@ defmodule RbaxWeb.Rbax.RoleController do
   end
 
   def new(conn, _params) do
-    # changeset = Role.changeset(%Role{})
-    # render(conn, "new.html", changeset: changeset)
-
     subjects = Entities.list_subjects()
     changeset = Role.changeset(
       preload_subjects(%Role{})
@@ -32,15 +30,6 @@ defmodule RbaxWeb.Rbax.RoleController do
   end
 
   def create(conn, %{"role" => role_params}) do
-    # with {:ok, role} <- Entities.create_role(role_params) do
-    #   conn
-    #     |> put_flash(:info, gettext("Role created successfully."))
-    #     |> redirect(to: Routes.role_path(conn, :show, role))
-    # else
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "new.html", changeset: changeset)
-    # end
-
     with {:ok, role} <- Entities.create_role(role_params) do
       conn
         |> put_flash(:info, gettext("Role created successfully."))
@@ -54,14 +43,7 @@ defmodule RbaxWeb.Rbax.RoleController do
   end
 
   def edit(conn, %{"id" => id}) do
-    # role = Entities.get_role!(id)
-    # changeset = Entities.change_role(role)
-    # render(conn, "edit.html", role: role, changeset: changeset)
-
-    role =
-      id
-        |> Entities.get_role!()
-        |> preload_subjects()
+    role = id |> Entities.get_role!() |> preload_subjects()
 
     changeset = Entities.change_role(role)
     subjects = Entities.list_subjects()
@@ -69,22 +51,7 @@ defmodule RbaxWeb.Rbax.RoleController do
   end
 
   def update(conn, %{"id" => id, "role" => role_params}) do
-    # role = Entities.get_role!(id)
-
-    # case Entities.update_role(role, role_params) do
-    #   {:ok, role} ->
-    #     conn
-    #     |> put_flash(:info, gettext("Role updated successfully."))
-    #     |> redirect(to: Routes.role_path(conn, :show, role))
-
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "edit.html", role: role, changeset: changeset)
-    # end
-
-    role =
-      id
-        |> Entities.get_role!()
-        |> preload_subjects()
+    role = id |> Entities.get_role!() |> preload_subjects()
 
     case Entities.update_role(role, role_params) do
       {:ok, role} ->

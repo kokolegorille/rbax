@@ -3,13 +3,40 @@
 <%= link gettext("New"), to: Routes.right_path(@conn, :new) %>
 
 <%= if length(@rights) > 0 do %>
-  <ul>
-  <%= for right <- @rights do %>
-    <li>
-      <%= link right.name, to: Routes.right_path(@conn, :show, right.id) %>
-    </li>
-  <% end %>  
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th><%= gettext("Name") %></th>
+        <th><%= gettext("Filter") %></th>
+        <th><%= gettext("Operations") %></th>
+        <th><%= gettext("Actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for right <- @rights do %>
+        <tr>
+          <td><%= right.name %></td>
+          <td><%= right.filter %></td>
+          <td>
+            [
+              <%= 
+                right.operations |> Enum.map(& &1.name) |> Enum.join(", ")
+              %>
+            ]
+          </td>
+          <td>
+            <%= link gettext("Edit"), to: Routes.right_path(@conn, :edit, right) %> | 
+            <%= 
+              link gettext("Delete"), 
+                to: Routes.right_path(@conn, :delete, right), 
+                method: :delete, 
+                data: [confirm: gettext("Are you sure?")]
+            %>  
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <p><%= gettext("The list is empty.") %></p>
 <% end %>

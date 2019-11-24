@@ -8,10 +8,26 @@
     </div>
   <% end %>
 
-  <div>
-    <%= label f, :name %>
-    <%= text_input f, :name, placeholder: gettext("Enter name"), required: true, autofocus: true %>
-    <%= error_tag f, :name %>
+  <div class="flex">
+    <div style="flex: 1">
+      <%= label f, :role %>
+      <%= select f, :role_id, @roles %>
+    </div>
+
+    <div style="flex: 1">
+      <%= label f, :context %>
+      <%= select f, :context_id, @contexts %>
+    </div>
+
+    <div style="flex: 1">
+      <%= label f, :operation %>
+      <%= select f, :operation_id, @operations %>
+    </div>
+
+    <div style="flex: 1">
+      <%= label f, :domain %>
+      <%= select f, :domain_id, @domains %>
+    </div>
   </div>
 
   <div>

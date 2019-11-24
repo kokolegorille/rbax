@@ -9,16 +9,16 @@ defmodule RbaxWeb.Rbax.ContextController do
     render(conn, "index.html", contexts: contexts)
   end
 
-  def show(conn, %{"id" => id}) do
-    with %Context{} = context <- Entities.get_context!(id) do
-      render(conn, "show.html", context: context)
-    else
-      nil ->
-        conn
-        |> put_flash(:error, gettext("Context not found."))
-        |> redirect(to: Routes.context_path(conn, :index))
-    end
-  end
+  # def show(conn, %{"id" => id}) do
+  #   with %Context{} = context <- Entities.get_context!(id) do
+  #     render(conn, "show.html", context: context)
+  #   else
+  #     nil ->
+  #       conn
+  #       |> put_flash(:error, gettext("Context not found."))
+  #       |> redirect(to: Routes.context_path(conn, :index))
+  #   end
+  # end
 
   def new(conn, _params) do
     changeset = Context.changeset(%Context{})
@@ -26,10 +26,10 @@ defmodule RbaxWeb.Rbax.ContextController do
   end
 
   def create(conn, %{"context" => context_params}) do
-    with {:ok, context} <- Entities.create_context(context_params) do
+    with {:ok, _context} <- Entities.create_context(context_params) do
       conn
         |> put_flash(:info, gettext("Context created successfully."))
-        |> redirect(to: Routes.context_path(conn, :show, context))
+        |> redirect(to: Routes.context_path(conn, :index))
     else
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -46,10 +46,10 @@ defmodule RbaxWeb.Rbax.ContextController do
     context = Entities.get_context!(id)
 
     case Entities.update_context(context, context_params) do
-      {:ok, context} ->
+      {:ok, _context} ->
         conn
         |> put_flash(:info, gettext("Context updated successfully."))
-        |> redirect(to: Routes.context_path(conn, :show, context))
+        |> redirect(to: Routes.context_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", context: context, changeset: changeset)

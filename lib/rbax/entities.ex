@@ -1163,4 +1163,13 @@ defmodule Rbax.Entities do
     |> Ecto.Changeset.put_assoc(:objects, objects)
     |> Repo.update
   end
+
+  ########################################
+  ### SELECTORS
+  ########################################
+
+  def select_roles, do: Repo.all(from(item in Role, select: {item.name, item.id}))
+  def select_contexts, do: Repo.all(from(item in Context, select: {item.name, item.id}))
+  def select_operations, do: Repo.all(from(item in Operation, select: {item.name, item.id}))
+  def select_domains, do: Repo.all(from(item in Domain, select: {item.name, item.id}))
 end

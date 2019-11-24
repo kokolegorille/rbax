@@ -7,6 +7,11 @@
   <%= for role <- @roles do %>
     <li>
       <%= link role.name, to: Routes.role_path(@conn, :show, role.id) %>
+      [
+        <%= 
+          role.subjects |> Enum.map(& &1.name) |> Enum.join(", ")
+        %>
+      ]
     </li>
   <% end %>  
   </ul>

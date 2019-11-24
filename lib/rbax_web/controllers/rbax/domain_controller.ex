@@ -6,6 +6,7 @@ defmodule RbaxWeb.Rbax.DomainController do
 
   def index(conn, _params) do
     domains =  Entities.list_domains()
+    |> preload_objects()
     render(conn, "index.html", domains: domains)
   end
 
@@ -21,9 +22,6 @@ defmodule RbaxWeb.Rbax.DomainController do
   end
 
   def new(conn, _params) do
-    # changeset = Domain.changeset(%Domain{})
-    # render(conn, "new.html", changeset: changeset)
-
     objects = Entities.list_objects()
     changeset = Domain.changeset(
       preload_objects(%Domain{})
@@ -32,15 +30,6 @@ defmodule RbaxWeb.Rbax.DomainController do
   end
 
   def create(conn, %{"domain" => domain_params}) do
-    # with {:ok, domain} <- Entities.create_domain(domain_params) do
-    #   conn
-    #     |> put_flash(:info, gettext("Domain created successfully."))
-    #     |> redirect(to: Routes.domain_path(conn, :show, domain))
-    # else
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "new.html", changeset: changeset)
-    # end
-
     with {:ok, domain} <- Entities.create_domain(domain_params) do
       conn
         |> put_flash(:info, gettext("Domain created successfully."))
@@ -54,14 +43,7 @@ defmodule RbaxWeb.Rbax.DomainController do
   end
 
   def edit(conn, %{"id" => id}) do
-    # domain = Entities.get_domain!(id)
-    # changeset = Entities.change_domain(domain)
-    # render(conn, "edit.html", domain: domain, changeset: changeset)
-
-    domain =
-      id
-        |> Entities.get_domain!()
-        |> preload_objects()
+    domain = id |> Entities.get_domain!() |> preload_objects()
 
     changeset = Entities.change_domain(domain)
     objects = Entities.list_objects()
@@ -69,22 +51,7 @@ defmodule RbaxWeb.Rbax.DomainController do
   end
 
   def update(conn, %{"id" => id, "domain" => domain_params}) do
-    # domain = Entities.get_domain!(id)
-
-    # case Entities.update_domain(domain, domain_params) do
-    #   {:ok, domain} ->
-    #     conn
-    #     |> put_flash(:info, gettext("Domain updated successfully."))
-    #     |> redirect(to: Routes.domain_path(conn, :show, domain))
-
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "edit.html", domain: domain, changeset: changeset)
-    # end
-
-    domain =
-      id
-        |> Entities.get_domain!()
-        |> preload_objects()
+    domain = id |> Entities.get_domain!() |> preload_objects()
 
     case Entities.update_domain(domain, domain_params) do
       {:ok, domain} ->

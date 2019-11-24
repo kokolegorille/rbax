@@ -26,6 +26,7 @@ defmodule Rbax do
   defdelegate update_role(role, attrs), to: Entities
   defdelegate delete_role(role), to: Entities
   defdelegate change_role(role), to: Entities
+  defdelegate select_roles, to: Entities
 
   defdelegate list_contexts, to: Entities
   defdelegate get_context!(id), to: Entities
@@ -35,6 +36,7 @@ defmodule Rbax do
   defdelegate update_context(context, attrs), to: Entities
   defdelegate delete_context(context), to: Entities
   defdelegate change_context(context), to: Entities
+  defdelegate select_contexts, to: Entities
 
   defdelegate list_operations, to: Entities
   defdelegate get_operation!(id), to: Entities
@@ -44,6 +46,7 @@ defmodule Rbax do
   defdelegate update_operation(operation, attrs), to: Entities
   defdelegate delete_operation(operation), to: Entities
   defdelegate change_operation(operation), to: Entities
+  defdelegate select_operations, to: Entities
 
   defdelegate list_rights, to: Entities
   defdelegate get_right!(id), to: Entities
@@ -53,6 +56,7 @@ defmodule Rbax do
   defdelegate update_right(right, attrs), to: Entities
   defdelegate delete_right(right), to: Entities
   defdelegate change_right(right), to: Entities
+  defdelegate select_domains, to: Entities
 
   defdelegate list_domains, to: Entities
   defdelegate get_domain!(id), to: Entities

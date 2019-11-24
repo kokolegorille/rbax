@@ -6,6 +6,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
 
   def index(conn, _params) do
     subjects =  Entities.list_subjects()
+    |> preload_roles()
     render(conn, "index.html", subjects: subjects)
   end
 
@@ -21,9 +22,6 @@ defmodule RbaxWeb.Rbax.SubjectController do
   end
 
   def new(conn, _params) do
-    # changeset = Subject.changeset(%Subject{})
-    # render(conn, "new.html", changeset: changeset)
-
     roles = Entities.list_roles()
     changeset = Subject.changeset(
       preload_roles(%Subject{})
@@ -32,15 +30,6 @@ defmodule RbaxWeb.Rbax.SubjectController do
   end
 
   def create(conn, %{"subject" => subject_params}) do
-    # with {:ok, subject} <- Entities.create_subject(subject_params) do
-    #   conn
-    #     |> put_flash(:info, gettext("Subject created successfully."))
-    #     |> redirect(to: Routes.subject_path(conn, :show, subject))
-    # else
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "new.html", changeset: changeset)
-    # end
-
     with {:ok, subject} <- Entities.create_subject(subject_params) do
       conn
         |> put_flash(:info, gettext("Subject created successfully."))
@@ -54,14 +43,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
   end
 
   def edit(conn, %{"id" => id}) do
-    # subject = Entities.get_subject!(id)
-    # changeset = Entities.change_subject(subject)
-    # render(conn, "edit.html", subject: subject, changeset: changeset)
-
-    subject =
-      id
-        |> Entities.get_subject!()
-        |> preload_roles()
+    subject = id |> Entities.get_subject!() |> preload_roles()
 
     changeset = Entities.change_subject(subject)
     roles = Entities.list_roles()
@@ -69,22 +51,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
   end
 
   def update(conn, %{"id" => id, "subject" => subject_params}) do
-    # subject = Entities.get_subject!(id)
-
-    # case Entities.update_subject(subject, subject_params) do
-    #   {:ok, subject} ->
-    #     conn
-    #     |> put_flash(:info, gettext("Subject updated successfully."))
-    #     |> redirect(to: Routes.subject_path(conn, :show, subject))
-
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, "edit.html", subject: subject, changeset: changeset)
-    # end
-
-    subject =
-      id
-        |> Entities.get_subject!()
-        |> preload_roles()
+    subject = id |> Entities.get_subject!() |> preload_roles()
 
     case Entities.update_subject(subject, subject_params) do
       {:ok, subject} ->

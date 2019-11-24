@@ -21,12 +21,12 @@ defmodule RbaxWeb.Router do
     scope "/rbax", Rbax do
       resources("/subjects", SubjectController)
       resources("/roles", RoleController)
-      resources("/contexts", ContextController)
-      resources("/operations", OperationController)
-      resources("/rights", RightController)
+      resources("/contexts", ContextController, except: [:show])
+      resources("/operations", OperationController, except: [:show])
+      resources("/rights", RightController, except: [:show])
       resources("/domains", DomainController)
       resources("/objects", ObjectController)
-      resources("/permissions", PermissionController)
+      resources("/permissions", PermissionController, except: [:show])
     end
   end
 

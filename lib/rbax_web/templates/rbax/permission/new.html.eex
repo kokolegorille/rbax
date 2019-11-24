@@ -4,5 +4,9 @@
   render "form.html", 
     action: Routes.permission_path(@conn, :create), 
     changeset: @changeset,
-    cancel: Routes.permission_path(@conn, :index)
+    cancel: Routes.permission_path(@conn, :index),
+    roles: @roles,
+    contexts: @contexts,
+    operations: @operations,
+    domains: @domains
 %>

@@ -7,6 +7,11 @@
   <%= for object <- @objects do %>
     <li>
       <%= link object.name, to: Routes.object_path(@conn, :show, object.id) %>
+      [
+        <%= 
+          object.domains |> Enum.map(& &1.name) |> Enum.join(", ")
+        %>
+      ]
     </li>
   <% end %>  
   </ul>

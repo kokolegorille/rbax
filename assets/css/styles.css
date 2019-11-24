@@ -1,3 +1,7 @@
+/* BASE */
+
+.flex { display: flex; }
+
 /* SIMPLE MENU */
 
 header ul {

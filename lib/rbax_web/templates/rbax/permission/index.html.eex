@@ -3,13 +3,36 @@
 <%= link gettext("New"), to: Routes.permission_path(@conn, :new) %>
 
 <%= if length(@permissions) > 0 do %>
-  <ul>
-  <%= for permission <- @permissions do %>
-    <li>
-      <%= link permission.name, to: Routes.permission_path(@conn, :show, permission.id) %>
-    </li>
-  <% end %>  
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th><%= gettext("Role") %></th>
+        <th><%= gettext("Context") %></th>
+        <th><%= gettext("Operation") %></th>
+        <th><%= gettext("Domain") %></th>
+        <th><%= gettext("Actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for permission <- @permissions do %>
+        <tr>
+          <td><%= permission.role.name %></td>
+          <td><%= permission.context.name %></td>
+          <td><%= permission.operation.name %></td>
+          <td><%= permission.domain.name %></td>
+          <td>
+            <%= link gettext("Edit"), to: Routes.permission_path(@conn, :edit, permission) %> | 
+            <%= 
+              link gettext("Delete"), 
+                to: Routes.permission_path(@conn, :delete, permission), 
+                method: :delete, 
+                data: [confirm: gettext("Are you sure?")]
+            %>  
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <p><%= gettext("The list is empty.") %></p>
 <% end %>
