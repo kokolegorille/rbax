@@ -10,7 +10,7 @@
 
   <div>
     <%= label f, :name %>
-    <%= text_input f, :name, placeholder: gettext("Enter your name"), required: true, autofocus: true %>
+    <%= text_input f, :name, placeholder: gettext("Enter name"), required: true, autofocus: true %>
     <%= error_tag f, :name %>
   </div>
 
@@ -20,6 +20,17 @@
     <%= error_tag f, :filter %>
   </div>
   
+  <div>
+    <%=
+      multiselect_checkboxes(
+        f,
+        :operations,
+        Enum.map(@operations, fn o -> { o.name, o.id } end),
+        selected: Enum.map(@changeset.data.operations,&(&1.id))
+      )
+    %>
+  </div>
+
   <div>
     <%= submit "Submit" %> <%= gettext "or" %> 
     <%= if assigns[:cancel] do %>

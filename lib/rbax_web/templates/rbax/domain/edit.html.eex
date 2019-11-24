@@ -4,5 +4,6 @@
   render "form.html", 
     action: Routes.domain_path(@conn, :update, @domain), 
     changeset: @changeset,
-    cancel: Routes.domain_path(@conn, :show, @domain)
+    cancel: Routes.domain_path(@conn, :show, @domain),
+    objects: @objects
 %>

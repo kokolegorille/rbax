@@ -1,5 +1,17 @@
 <h1><%= @operation.name %></h1>
 
+<%= if length(@operation.rights) > 0 do %>
+  <h3>Rights</h3>
+  <ul>
+  <%= for right <- @operation.rights do %>
+    <li>
+      <%= right.name %>
+      <%= right.filter %>
+    </li>
+  <% end %>  
+  </ul>
+<% end %>
+
 <div>
   <%= link gettext("Index"), to: Routes.operation_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.operation_path(@conn, :edit, @operation) %> | 

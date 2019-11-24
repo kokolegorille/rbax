@@ -76,9 +76,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_subjects(ids) do
-    Repo.all(from item in Subject, where: item.id in ^ids)
-  end
+  def get_subjects(nil), do: []
+  def get_subjects(ids), do: Repo.all(from item in Subject, where: item.id in ^ids)
 
   @doc """
   Creates a subject.
@@ -119,16 +118,13 @@ defmodule Rbax.Entities do
   end
 
   # Helper for many_to_many association
+  # This will delete previous associations if nil!
   defp maybe_put_roles(changeset, attrs) do
-    case attrs["roles"] do
-      nil -> changeset
-      ids ->
-        roles = ids
-        |> Enum.map(& String.to_integer(&1))
-        |> get_roles()
+    roles = (attrs["roles"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_roles()
 
-        Ecto.Changeset.put_assoc(changeset, :roles, roles)
-    end
+    Ecto.Changeset.put_assoc(changeset, :roles, roles)
   end
 
   @doc """
@@ -223,9 +219,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_roles(ids) do
-    Repo.all(from item in Role, where: item.id in ^ids)
-  end
+  def get_roles(nil), do: []
+  def get_roles(ids), do: Repo.all(from item in Role, where: item.id in ^ids)
 
   @doc """
   Creates a role.
@@ -242,6 +237,7 @@ defmodule Rbax.Entities do
   def create_role(attrs \\ %{}) do
     %Role{}
     |> Role.changeset(attrs)
+    |> maybe_put_subjects(attrs)
     |> Repo.insert()
   end
 
@@ -260,7 +256,18 @@ defmodule Rbax.Entities do
   def update_role(%Role{} = role, attrs) do
     role
     |> Role.changeset(attrs)
+    |> maybe_put_subjects(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  # This will delete previous associations if nil!
+  defp maybe_put_subjects(changeset, attrs) do
+    subjects = (attrs["subjects"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_subjects()
+
+    Ecto.Changeset.put_assoc(changeset, :subjects, subjects)
   end
 
   @doc """
@@ -355,9 +362,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_contexts(ids) do
-    Repo.all(from item in Context, where: item.id in ^ids)
-  end
+  def get_contexts(nil), do: []
+  def get_contexts(ids), do: Repo.all(from item in Context, where: item.id in ^ids)
 
   @doc """
   Creates a context.
@@ -487,9 +493,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_operations(ids) do
-    Repo.all(from item in Operation, where: item.id in ^ids)
-  end
+  def get_operations(nil), do: []
+  def get_operations(ids), do: Repo.all(from item in Operation, where: item.id in ^ids)
 
   @doc """
   Creates a operation.
@@ -506,6 +511,7 @@ defmodule Rbax.Entities do
   def create_operation(attrs \\ %{}) do
     %Operation{}
     |> Operation.changeset(attrs)
+    |> maybe_put_rights(attrs)
     |> Repo.insert()
   end
 
@@ -524,7 +530,18 @@ defmodule Rbax.Entities do
   def update_operation(%Operation{} = operation, attrs) do
     operation
     |> Operation.changeset(attrs)
+    |> maybe_put_rights(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  # This will delete previous associations if nil!
+  defp maybe_put_rights(changeset, attrs) do
+    rights = (attrs["rights"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_rights()
+
+    Ecto.Changeset.put_assoc(changeset, :rights, rights)
   end
 
   @doc """
@@ -619,9 +636,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_rights(ids) do
-    Repo.all(from item in Right, where: item.id in ^ids)
-  end
+  def get_rights(nil), do: []
+  def get_rights(ids), do: Repo.all(from item in Right, where: item.id in ^ids)
 
   @doc """
   Creates a right.
@@ -638,6 +654,7 @@ defmodule Rbax.Entities do
   def create_right(attrs \\ %{}) do
     %Right{}
     |> Right.changeset(attrs)
+    |> maybe_put_operations(attrs)
     |> Repo.insert()
   end
 
@@ -656,7 +673,18 @@ defmodule Rbax.Entities do
   def update_right(%Right{} = right, attrs) do
     right
     |> Right.changeset(attrs)
+    |> maybe_put_operations(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  # This will delete previous associations if nil!
+  defp maybe_put_operations(changeset, attrs) do
+    operations = (attrs["operations"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_operations()
+
+    Ecto.Changeset.put_assoc(changeset, :operations, operations)
   end
 
   @doc """
@@ -751,9 +779,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_domains(ids) do
-    Repo.all(from item in Domain, where: item.id in ^ids)
-  end
+  def get_domains(nil), do: []
+  def get_domains(ids), do: Repo.all(from item in Domain, where: item.id in ^ids)
 
   @doc """
   Creates a domain.
@@ -770,6 +797,7 @@ defmodule Rbax.Entities do
   def create_domain(attrs \\ %{}) do
     %Domain{}
     |> Domain.changeset(attrs)
+    |> maybe_put_objects(attrs)
     |> Repo.insert()
   end
 
@@ -788,7 +816,18 @@ defmodule Rbax.Entities do
   def update_domain(%Domain{} = domain, attrs) do
     domain
     |> Domain.changeset(attrs)
+    |> maybe_put_objects(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  # This will delete previous associations if nil!
+  defp maybe_put_objects(changeset, attrs) do
+    objects = (attrs["objects"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_objects()
+
+    Ecto.Changeset.put_assoc(changeset, :objects, objects)
   end
 
   @doc """
@@ -883,9 +922,8 @@ defmodule Rbax.Entities do
       []
 
   """
-  def get_objects(ids) do
-    Repo.all(from item in Object, where: item.id in ^ids)
-  end
+  def get_objects(nil), do: []
+  def get_objects(ids), do: Repo.all(from item in Object, where: item.id in ^ids)
 
   @doc """
   Creates a object.
@@ -902,6 +940,7 @@ defmodule Rbax.Entities do
   def create_object(attrs \\ %{}) do
     %Object{}
     |> Object.changeset(attrs)
+    |> maybe_put_domains(attrs)
     |> Repo.insert()
   end
 
@@ -920,7 +959,18 @@ defmodule Rbax.Entities do
   def update_object(%Object{} = object, attrs) do
     object
     |> Object.changeset(attrs)
+    |> maybe_put_domains(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  # This will delete previous associations if nil!
+  defp maybe_put_domains(changeset, attrs) do
+    domains = (attrs["domains"] || [])
+      |> Enum.map(& String.to_integer(&1))
+      |> get_domains()
+
+    Ecto.Changeset.put_assoc(changeset, :domains, domains)
   end
 
   @doc """

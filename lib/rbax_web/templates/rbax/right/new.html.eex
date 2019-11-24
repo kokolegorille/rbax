@@ -4,5 +4,6 @@
   render "form.html", 
     action: Routes.right_path(@conn, :create), 
     changeset: @changeset,
-    cancel: Routes.right_path(@conn, :index)
+    cancel: Routes.right_path(@conn, :index),
+    operations: @operations
 %>

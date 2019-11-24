@@ -1,5 +1,14 @@
 <h1><%= @subject.name %></h1>
 
+<%= if length(@subject.roles) > 0 do %>
+  <h3>Roles</h3>
+  <ul>
+  <%= for role <- @subject.roles do %>
+    <li><%= role.name %></li>
+  <% end %>  
+  </ul>
+<% end %>
+
 <div>
   <%= link gettext("Index"), to: Routes.subject_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.subject_path(@conn, :edit, @subject) %> | 

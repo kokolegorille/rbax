@@ -4,6 +4,15 @@
   <li>Filter: <%= @right.filter %></li>
 </ul>
 
+<%= if length(@right.operations) > 0 do %>
+  <h3>Operations</h3>
+  <ul>
+  <%= for operation <- @right.operations do %>
+    <li><%= operation.name %></li>
+  <% end %>  
+  </ul>
+<% end %>
+
 <div>
   <%= link gettext("Index"), to: Routes.right_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.right_path(@conn, :edit, @right) %> | 

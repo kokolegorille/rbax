@@ -11,7 +11,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
 
   def show(conn, %{"id" => id}) do
     with %Subject{} = subject <- Entities.get_subject!(id) do
-      render(conn, "show.html", subject: subject)
+      render(conn, "show.html", subject: preload_roles(subject))
     else
       nil ->
         conn
@@ -96,7 +96,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
         data = preload_roles(changeset.data)
         roles = Entities.list_roles()
         render(conn, "edit.html",
-          subject: preload_roles(subject),
+          subject: subject,
           changeset: %{changeset | data: data},
           roles: roles
         )

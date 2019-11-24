@@ -1,5 +1,14 @@
 <h1><%= @object.name %></h1>
 
+<%= if length(@object.domains) > 0 do %>
+  <h3>Domains</h3>
+  <ul>
+  <%= for domain <- @object.domains do %>
+    <li><%= domain.name %></li>
+  <% end %>  
+  </ul>
+<% end %>
+
 <div>
   <%= link gettext("Index"), to: Routes.object_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.object_path(@conn, :edit, @object) %> | 

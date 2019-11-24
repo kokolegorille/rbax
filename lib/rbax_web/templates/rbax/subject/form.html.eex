@@ -25,7 +25,6 @@
     %>
   </div>
 
-
   <div>
     <%= submit "Submit" %> <%= gettext "or" %> 
     <%= if assigns[:cancel] do %>

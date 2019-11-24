@@ -4,5 +4,6 @@
   render "form.html", 
     action: Routes.role_path(@conn, :update, @role), 
     changeset: @changeset,
-    cancel: Routes.role_path(@conn, :show, @role)
+    cancel: Routes.role_path(@conn, :show, @role),
+    subjects: @subjects
 %>

@@ -10,8 +10,19 @@
 
   <div>
     <%= label f, :name %>
-    <%= text_input f, :name, placeholder: gettext("Enter your name"), required: true, autofocus: true %>
+    <%= text_input f, :name, placeholder: gettext("Enter name"), required: true, autofocus: true %>
     <%= error_tag f, :name %>
+  </div>
+
+  <div>
+    <%=
+      multiselect_checkboxes(
+        f,
+        :domains,
+        Enum.map(@domains, fn d -> { d.name, d.id } end),
+        selected: Enum.map(@changeset.data.domains,&(&1.id))
+      )
+    %>
   </div>
 
   <div>
