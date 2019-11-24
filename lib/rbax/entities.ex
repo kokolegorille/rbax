@@ -63,6 +63,24 @@ defmodule Rbax.Entities do
   def get_subject_by_name(name), do: Repo.get_by(Subject, name: name)
 
   @doc """
+  Gets subjects by ids
+
+  Returns [] if subjects do not exist.
+
+  ## Examples
+
+      iex> get_subjects([1, 2, 3])
+      [%Subject{}]
+
+      iex> get_subjects([111, 222, 333])
+      []
+
+  """
+  def get_subjects(ids) do
+    Repo.all(from item in Subject, where: item.id in ^ids)
+  end
+
+  @doc """
   Creates a subject.
 
   ## Examples
@@ -77,6 +95,7 @@ defmodule Rbax.Entities do
   def create_subject(attrs \\ %{}) do
     %Subject{}
     |> Subject.changeset(attrs)
+    |> maybe_put_roles(attrs)
     |> Repo.insert()
   end
 
@@ -95,7 +114,21 @@ defmodule Rbax.Entities do
   def update_subject(%Subject{} = subject, attrs) do
     subject
     |> Subject.changeset(attrs)
+    |> maybe_put_roles(attrs)
     |> Repo.update()
+  end
+
+  # Helper for many_to_many association
+  defp maybe_put_roles(changeset, attrs) do
+    case attrs["roles"] do
+      nil -> changeset
+      ids ->
+        roles = ids
+        |> Enum.map(& String.to_integer(&1))
+        |> get_roles()
+
+        Ecto.Changeset.put_assoc(changeset, :roles, roles)
+    end
   end
 
   @doc """
@@ -175,6 +208,24 @@ defmodule Rbax.Entities do
 
   """
   def get_role_by_name(name), do: Repo.get_by(Role, name: name)
+
+  @doc """
+  Gets roles by ids
+
+  Returns [] if roles do not exist.
+
+  ## Examples
+
+      iex> get_roles([1, 2, 3])
+      [%Role{}]
+
+      iex> get_roles([111, 222, 333])
+      []
+
+  """
+  def get_roles(ids) do
+    Repo.all(from item in Role, where: item.id in ^ids)
+  end
 
   @doc """
   Creates a role.
@@ -291,6 +342,24 @@ defmodule Rbax.Entities do
   def get_context_by_name(name), do: Repo.get_by(Context, name: name)
 
   @doc """
+  Gets contexts by ids
+
+  Returns [] if contexts do not exist.
+
+  ## Examples
+
+      iex> get_contexts([1, 2, 3])
+      [%Context{}]
+
+      iex> get_contexts([111, 222, 333])
+      []
+
+  """
+  def get_contexts(ids) do
+    Repo.all(from item in Context, where: item.id in ^ids)
+  end
+
+  @doc """
   Creates a context.
 
   ## Examples
@@ -403,6 +472,24 @@ defmodule Rbax.Entities do
 
   """
   def get_operation_by_name(name), do: Repo.get_by(Operation, name: name)
+
+  @doc """
+  Gets operations by ids
+
+  Returns [] if operations do not exist.
+
+  ## Examples
+
+      iex> get_operations([1, 2, 3])
+      [%Operation{}]
+
+      iex> get_operations([111, 222, 333])
+      []
+
+  """
+  def get_operations(ids) do
+    Repo.all(from item in Operation, where: item.id in ^ids)
+  end
 
   @doc """
   Creates a operation.
@@ -519,6 +606,24 @@ defmodule Rbax.Entities do
   def get_right_by_name(name), do: Repo.get_by(Right, name: name)
 
   @doc """
+  Gets rights by ids
+
+  Returns [] if rights do not exist.
+
+  ## Examples
+
+      iex> get_rights([1, 2, 3])
+      [%Right{}]
+
+      iex> get_rights([111, 222, 333])
+      []
+
+  """
+  def get_rights(ids) do
+    Repo.all(from item in Right, where: item.id in ^ids)
+  end
+
+  @doc """
   Creates a right.
 
   ## Examples
@@ -633,6 +738,24 @@ defmodule Rbax.Entities do
   def get_domain_by_name(name), do: Repo.get_by(Domain, name: name)
 
   @doc """
+  Gets domains by ids
+
+  Returns [] if domains do not exist.
+
+  ## Examples
+
+      iex> get_domains([1, 2, 3])
+      [%Domain{}]
+
+      iex> get_domains([111, 222, 333])
+      []
+
+  """
+  def get_domains(ids) do
+    Repo.all(from item in Domain, where: item.id in ^ids)
+  end
+
+  @doc """
   Creates a domain.
 
   ## Examples
@@ -745,6 +868,24 @@ defmodule Rbax.Entities do
 
   """
   def get_object_by_name(name), do: Repo.get_by(Object, name: name)
+
+  @doc """
+  Gets objects by ids
+
+  Returns [] if objects do not exist.
+
+  ## Examples
+
+      iex> get_objects([1, 2, 3])
+      [%Object{}]
+
+      iex> get_objects([111, 222, 333])
+      []
+
+  """
+  def get_objects(ids) do
+    Repo.all(from item in Object, where: item.id in ^ids)
+  end
 
   @doc """
   Creates a object.

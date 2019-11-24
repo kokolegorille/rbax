@@ -39,6 +39,9 @@ defmodule RbaxWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      # Checkbox helper
+      import RbaxWeb.Helpers.CheckboxHelper
+
       import RbaxWeb.ErrorHelpers
       import RbaxWeb.Gettext
       alias RbaxWeb.Router.Helpers, as: Routes

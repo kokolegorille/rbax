@@ -15,6 +15,18 @@
   </div>
 
   <div>
+    <%=
+      multiselect_checkboxes(
+        f,
+        :roles,
+        Enum.map(@roles, fn r -> { r.name, r.id } end),
+        selected: Enum.map(@changeset.data.roles,&(&1.id))
+      )
+    %>
+  </div>
+
+
+  <div>
     <%= submit "Submit" %> <%= gettext "or" %> 
     <%= if assigns[:cancel] do %>
       <%= link gettext("Cancel"), to: @cancel %>
