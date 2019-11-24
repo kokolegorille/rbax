@@ -15,6 +15,18 @@
   </div>
 
   <div>
+    <%= label f, :rule %>
+    <%= text_input f, :rule, placeholder: gettext("Enter rule") %>
+    <%= error_tag f, :rule %>
+  </div>
+
+  <div>
+    <%= label f, :filter %>
+    <%= text_input f, :filter, placeholder: gettext("Enter filter") %>
+    <%= error_tag f, :filter %>
+  </div>
+
+  <div>
     <%= submit "Submit" %> <%= gettext "or" %> 
     <%= if assigns[:cancel] do %>
       <%= link gettext("Cancel"), to: @cancel %>

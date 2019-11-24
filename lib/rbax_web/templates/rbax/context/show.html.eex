@@ -1,5 +1,10 @@
 <h1><%= @context.name %></h1>
 
+<ul>
+  <li>Rule: <%= @context.rule %></li>
+  <li>Filter: <%= @context.filter %></li>
+</ul>
+
 <div>
   <%= link gettext("Index"), to: Routes.context_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.context_path(@conn, :edit, @context) %> | 
