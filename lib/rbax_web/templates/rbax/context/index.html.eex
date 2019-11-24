@@ -1,0 +1,15 @@
+<h1><%= gettext("Contexts") %></h1>
+
+<%= link gettext("New"), to: Routes.context_path(@conn, :new) %>
+
+<%= if length(@contexts) > 0 do %>
+  <ul>
+  <%= for context <- @contexts do %>
+    <li>
+      <%= link context.name, to: Routes.context_path(@conn, :show, context.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

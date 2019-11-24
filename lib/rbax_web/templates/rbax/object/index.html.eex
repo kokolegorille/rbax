@@ -1,0 +1,15 @@
+<h1><%= gettext("Objects") %></h1>
+
+<%= link gettext("New"), to: Routes.object_path(@conn, :new) %>
+
+<%= if length(@objects) > 0 do %>
+  <ul>
+  <%= for object <- @objects do %>
+    <li>
+      <%= link object.name, to: Routes.object_path(@conn, :show, object.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

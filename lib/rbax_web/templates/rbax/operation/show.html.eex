@@ -1,0 +1,3 @@
+<h1><%= @operation.name %></h1>
+
+<%= link gettext("Index"), to: Routes.operation_path(@conn, :index) %>

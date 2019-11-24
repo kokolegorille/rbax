@@ -1,0 +1,15 @@
+<h1><%= gettext("Domains") %></h1>
+
+<%= link gettext("New"), to: Routes.domain_path(@conn, :new) %>
+
+<%= if length(@domains) > 0 do %>
+  <ul>
+  <%= for domain <- @domains do %>
+    <li>
+      <%= link domain.name, to: Routes.domain_path(@conn, :show, domain.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

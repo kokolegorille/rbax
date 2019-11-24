@@ -1,0 +1,5 @@
+<h1><%= gettext "Edit Context" %></h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.context_path(@conn, :update, @context)) %>
+
+<span><%= link gettext("Back"), to: Routes.context_path(@conn, :index) %></span>

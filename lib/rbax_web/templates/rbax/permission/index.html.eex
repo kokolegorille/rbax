@@ -1,0 +1,15 @@
+<h1><%= gettext("Permissions") %></h1>
+
+<%= link gettext("New"), to: Routes.permission_path(@conn, :new) %>
+
+<%= if length(@permissions) > 0 do %>
+  <ul>
+  <%= for permission <- @permissions do %>
+    <li>
+      <%= link permission.name, to: Routes.permission_path(@conn, :show, permission.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

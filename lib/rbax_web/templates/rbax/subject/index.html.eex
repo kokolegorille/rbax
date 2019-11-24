@@ -1,0 +1,15 @@
+<h1><%= gettext("Subjects") %></h1>
+
+<%= link gettext("New"), to: Routes.subject_path(@conn, :new) %>
+
+<%= if length(@subjects) > 0 do %>
+  <ul>
+  <%= for subject <- @subjects do %>
+    <li>
+      <%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

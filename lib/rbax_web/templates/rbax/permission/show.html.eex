@@ -1,0 +1,3 @@
+<h1><%= @permission.name %></h1>
+
+<%= link gettext("Index"), to: Routes.permission_path(@conn, :index) %>

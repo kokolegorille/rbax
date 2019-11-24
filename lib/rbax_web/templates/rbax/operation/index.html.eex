@@ -1,0 +1,15 @@
+<h1><%= gettext("Operations") %></h1>
+
+<%= link gettext("New"), to: Routes.operation_path(@conn, :new) %>
+
+<%= if length(@operations) > 0 do %>
+  <ul>
+  <%= for operation <- @operations do %>
+    <li>
+      <%= link operation.name, to: Routes.operation_path(@conn, :show, operation.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

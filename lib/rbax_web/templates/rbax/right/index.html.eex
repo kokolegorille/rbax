@@ -1,0 +1,15 @@
+<h1><%= gettext("Rights") %></h1>
+
+<%= link gettext("New"), to: Routes.right_path(@conn, :new) %>
+
+<%= if length(@rights) > 0 do %>
+  <ul>
+  <%= for right <- @rights do %>
+    <li>
+      <%= link right.name, to: Routes.right_path(@conn, :show, right.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

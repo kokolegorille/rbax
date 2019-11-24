@@ -1,0 +1,3 @@
+<h1><%= @right.name %></h1>
+
+<%= link gettext("Index"), to: Routes.right_path(@conn, :index) %>

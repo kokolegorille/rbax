@@ -17,6 +17,17 @@ defmodule RbaxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    scope "/rbax", Rbax do
+      resources("/subjects", SubjectController)
+      resources("/roles", RoleController)
+      resources("/contexts", ContextController)
+      resources("/operations", OperationController)
+      resources("/rights", RightController)
+      resources("/domains", DomainController)
+      resources("/objects", ObjectController)
+      resources("/permissions", PermissionController)
+    end
   end
 
   # Other scopes may use custom stacks.

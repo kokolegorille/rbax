@@ -1,0 +1,15 @@
+<h1><%= gettext("Roles") %></h1>
+
+<%= link gettext("New"), to: Routes.role_path(@conn, :new) %>
+
+<%= if length(@roles) > 0 do %>
+  <ul>
+  <%= for role <- @roles do %>
+    <li>
+      <%= link role.name, to: Routes.role_path(@conn, :show, role.id) %>
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>
