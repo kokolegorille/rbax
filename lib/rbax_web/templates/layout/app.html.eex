@@ -20,6 +20,13 @@
             <li><%= link gettext("Domains"), to: Routes.domain_path(@conn, :index) %></li>
             <li><%= link gettext("Objects"), to: Routes.object_path(@conn, :index) %></li>
             <li><%= link gettext("Permissions"), to: Routes.permission_path(@conn, :index) %></li>
+            <li>
+              <%= if @current_user do %>
+                <%= link gettext("Signout"), to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %>
+              <% else %>
+                <%= link gettext("Signin"), to: Routes.session_path(@conn, :new) %>
+              <% end %>
+            </li>
           </ul>
         </nav>
       </section>

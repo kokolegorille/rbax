@@ -11,7 +11,7 @@ defmodule Rbax.Entities.Right do
     timestamps()
   end
 
-  @allowed_fields [:name, :filter]
+  @allowed_fields ~w(name filter)a
 
   def changeset(%__MODULE__{} = struct, params \\ %{}) do
     struct

@@ -12,7 +12,7 @@ defmodule Rbax.Entities.Permission do
     timestamps()
   end
 
-  @allowed_fields [:role_id, :context_id, :operation_id, :domain_id]
+  @allowed_fields ~w(role_id context_id operation_id domain_id)a
 
   def changeset(%__MODULE__{} = struct, params \\ %{}) do
     struct

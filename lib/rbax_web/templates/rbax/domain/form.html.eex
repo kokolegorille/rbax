@@ -15,6 +15,12 @@
   </div>
 
   <div>
+    <%= label f, :context %>
+    <%= text_input f, :context, placeholder: gettext("Enter context"), required: true, autofocus: true %>
+    <%= error_tag f, :context %>
+  </div>
+
+  <div>
     <%=
       multiselect_checkboxes(
         f,

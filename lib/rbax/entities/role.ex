@@ -10,7 +10,7 @@ defmodule Rbax.Entities.Role do
     timestamps()
   end
 
-  @allowed_fields [:name]
+  @allowed_fields ~w(name)a
 
   def changeset(%__MODULE__{} = role, params \\ %{}) do
     role

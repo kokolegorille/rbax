@@ -7,6 +7,9 @@ defmodule RbaxWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    #
+    plug(RbaxWeb.Plugs.Auth)
+    plug(RbaxWeb.Plugs.Locale)
   end
 
   pipeline :api do
@@ -17,6 +20,7 @@ defmodule RbaxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources("/sessions", SessionController, only: [:new, :create, :delete])
 
     scope "/rbax", Rbax do
       resources("/subjects", SubjectController)

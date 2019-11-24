@@ -1,0 +1,15 @@
+<h1><%= gettext "Signin" %></h1>
+
+<%= form_for @conn, Routes.session_path(@conn, :create), [as: :session, class: "form"], fn f -> %> 
+  <div>
+    <%= label f, :name %>
+    <%= text_input f, :name, placeholder: gettext("Enter your name"), required: true, autofocus: true %>
+  </div>
+  <div>
+    <%= label f, :password %>
+    <%= password_input f, :password, placeholder: gettext("Enter your password"), required: true %> 
+  </div>
+  <div>
+    <%= submit "Submit" %>
+  </div>
+<% end %>

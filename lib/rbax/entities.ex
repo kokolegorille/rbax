@@ -93,7 +93,7 @@ defmodule Rbax.Entities do
   """
   def create_subject(attrs \\ %{}) do
     %Subject{}
-    |> Subject.changeset(attrs)
+    |> Subject.registration_changeset(attrs)
     |> maybe_put_roles(attrs)
     |> Repo.insert()
   end
@@ -112,7 +112,7 @@ defmodule Rbax.Entities do
   """
   def update_subject(%Subject{} = subject, attrs) do
     subject
-    |> Subject.changeset(attrs)
+    |> Subject.registration_changeset(attrs)
     |> maybe_put_roles(attrs)
     |> Repo.update()
   end

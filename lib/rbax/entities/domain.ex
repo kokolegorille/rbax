@@ -5,12 +5,13 @@ defmodule Rbax.Entities.Domain do
 
   schema "domains" do
     field :name, :string
+    field :context, :string
     many_to_many :objects, Object, join_through: "domain_object", on_replace: :delete
     has_many :permissions, Permission
     timestamps()
   end
 
-  @allowed_fields [:name]
+  @allowed_fields ~w(name context)a
 
   def changeset(%__MODULE__{} = struct, params \\ %{}) do
     struct
