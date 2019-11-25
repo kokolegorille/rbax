@@ -3,13 +3,13 @@ defmodule RbaxWeb.Plugs.Auth do
   import Plug.Conn
   import Phoenix.Controller
   alias RbaxWeb.Router.Helpers, as: Routes
-  alias Rbax.{Accounts, Entities}
+  alias Rbax.Accounts
 
   def init(opts), do: opts
 
   def call(conn, _opts) do
     subject_id = get_session(conn, :subject_id)
-    subject = subject_id && Entities.get_subject!(subject_id)
+    subject = subject_id && Accounts.get_subject(subject_id)
     assign(conn, :current_user, subject)
   end
 

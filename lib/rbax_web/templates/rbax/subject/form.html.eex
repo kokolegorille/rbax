@@ -13,12 +13,14 @@
     <%= text_input f, :name, placeholder: gettext("Enter name"), required: true, autofocus: true %>
     <%= error_tag f, :name %>
   </div>
-
-  <div>
-    <%= label f, :password %>
-    <%= password_input f, :password, placeholder: gettext("Enter password"), required: true %>
-    <%= error_tag f, :password %>
-  </div>
+  
+  <%= if String.ends_with?(@action, "/subjects") do %>
+    <div>
+      <%= label f, :password %>
+      <%= password_input f, :password, placeholder: gettext("Enter password"), required: true %>
+      <%= error_tag f, :password %>
+    </div>
+  <% end %>
 
   <div>
     <%=

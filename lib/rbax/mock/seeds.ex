@@ -111,6 +111,8 @@ defmodule Rbax.Mock.Seeds do
   defp mock_contexts do
     [
       %{name: "default"},
+      %{name: "owner", rule: "s.id == o.owner_id"},
+      %{name: "self", rule: "s == o"},
     ]
   end
 
@@ -124,7 +126,7 @@ defmodule Rbax.Mock.Seeds do
     [
       %{name: "read"},
       %{name: "write"},
-      %{name: "delate"},
+      %{name: "delete"},
     ]
   end
 

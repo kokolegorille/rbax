@@ -17,7 +17,7 @@
       <%= for permission <- @permissions do %>
         <tr>
           <td><%= permission.role.name %></td>
-          <td><%= permission.context.name %></td>
+          <td><%= permission.context.name %> [ <%= permission.context.rule %> ]</td>
           <td><%= permission.operation.name %></td>
           <td><%= permission.domain.name %></td>
           <td>

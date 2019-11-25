@@ -1,6 +1,8 @@
 defmodule Rbax.Accounts do
-  alias Rbax.Entities
+  alias Rbax.{Entities, Repo}
   alias Entities.Subject
+
+  def get_subject(id), do: Repo.get(Subject, id)
 
   def authenticate(name, password),
     do: authenticate(%{"name" => name, "password" => password})

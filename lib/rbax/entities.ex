@@ -112,7 +112,7 @@ defmodule Rbax.Entities do
   """
   def update_subject(%Subject{} = subject, attrs) do
     subject
-    |> Subject.registration_changeset(attrs)
+    |> Subject.changeset(attrs)
     |> maybe_put_roles(attrs)
     |> Repo.update()
   end
@@ -1172,4 +1172,10 @@ defmodule Rbax.Entities do
   def select_contexts, do: Repo.all(from(item in Context, select: {item.name, item.id}))
   def select_operations, do: Repo.all(from(item in Operation, select: {item.name, item.id}))
   def select_domains, do: Repo.all(from(item in Domain, select: {item.name, item.id}))
+
+  ########################################
+  ### DELEGATES
+  ########################################
+
+  defdelegate fun_rule(context), to: Context
 end

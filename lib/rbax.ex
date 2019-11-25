@@ -37,6 +37,8 @@ defmodule Rbax do
   defdelegate delete_context(context), to: Entities
   defdelegate change_context(context), to: Entities
   defdelegate select_contexts, to: Entities
+  #
+  defdelegate fun_rule(context), to: Entities
 
   defdelegate list_operations, to: Entities
   defdelegate get_operation!(id), to: Entities

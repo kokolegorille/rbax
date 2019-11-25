@@ -6,8 +6,10 @@
   <ul>
   <%= for domain <- @domains do %>
     <li>
-      <%= link domain.name, to: Routes.domain_path(@conn, :show, domain.id) %>&nbsp;
-      <%= domain.context %> 
+      <%= link domain.name, to: Routes.domain_path(@conn, :show, domain.id) %>
+      <%= if domain.context do %>
+        , <%= domain.context %>
+      <% end %>
       [
         <%= 
           domain.objects |> Enum.map(& &1.name) |> Enum.join(", ")
