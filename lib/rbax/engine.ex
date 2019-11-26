@@ -5,24 +5,12 @@ defmodule Rbax.Engine do
   def permissions_for(%Subject{} = s, o, opts \\ []) do
     subject = Repo.preload(s, permissions: [:role, :context, :domain, operation: :rights])
 
-    object = get_object o
-    perms = if object do
-      object = object |> Repo.preload(permissions: [:role, :context, :domain, operation: :rights])
+    # object = get_object o
+    # perms = permissions_for_object(object, opts)
 
-      # Check if there is a domain_name set!
-      case Keyword.get(opts, :domain_name) do
-        nil ->
-          object.permissions
-        domain_name ->
-          domains = object.domains |> Enum.filter(fn d -> d.name == domain_name || d.context == domain_name end)
-          domains
-          |> Repo.preload(permissions: [:role, :context, :domain, operation: :rights])
-          |> Enum.flat_map(& &1.permissions)
-          |> Enum.uniq
-      end
-    else
-      []
-    end
+    perms = o
+    |> get_object()
+    |> permissions_for_object(opts)
 
     # Intersection of subject.permissions with perms from object, or domain
     tmp = subject.permissions -- perms
@@ -37,13 +25,32 @@ defmodule Rbax.Engine do
     end)
   end
 
+  def permissions_for_object(object, _opts \\ [])
+  def permissions_for_object(nil, _opts), do: []
+  def permissions_for_object(object, opts) when is_binary(object) do
+    permissions_for_object(Entities.get_object_by_name(object), opts)
+  end
+  def permissions_for_object(object, opts) do
+    object = object |> Repo.preload(permissions: [:role, :context, :domain, operation: :rights])
+    case Keyword.get(opts, :domain_name) do
+      nil -> object.permissions
+      domain_name -> permissions_for_domain_name(object.domains, domain_name)
+    end
+  end
+
+  defp permissions_for_domain_name(domains, domain_name) do
+    domains
+    |> Enum.filter(fn d -> d.name == domain_name || d.context == domain_name end)
+    |> Repo.preload(permissions: [:role, :context, :domain, operation: :rights])
+    |> Enum.flat_map(& &1.permissions)
+    |> Enum.uniq
+  end
+
   def rights_for(%Subject{} = s, o, opts \\ []) do
     permissions_for(s, o, opts)
     |> Enum.flat_map(& &1.operation.rights)
     |> Enum.uniq
   end
-
-  # Private
 
   defp get_object(o) do
     o.__struct__
@@ -52,36 +59,4 @@ defmodule Rbax.Engine do
     |> List.last
     |> Entities.get_object_by_name()
   end
-
-  # def permissions_for_subject_on_object(%Subject{} = subject, object) do
-  #   subject = Repo.preload(subject, :permissions)
-  #   object_type = object.__struct__
-
-  #   # TOTO : Check if ntl nil
-  #   domain = select_domain_from_type(object_type)
-  #   domain = Repo.preload(domain, :permissions)
-
-  #   # Get the permissions intersection
-  #   tmp = subject.permissions -- domain.permissions
-  #   permissions = subject.permissions -- tmp
-
-  #   # permissions = Repo.preload(permissions, [:role, :operation, :context, :domain])
-  #   permissions = Repo.preload(permissions, [:operation, :context])
-
-  #   # TODO : Check all context rules are true, for a given subject/object pair.
-
-  #   # TODO : Cumulate operation's rights, in a unique way
-
-  #   permissions
-  # end
-
-  # # TODO
-  # def can?(_subject, _object, _right) do
-
-  # end
-
-  # defp select_domain_from_type(_object_type) do
-  #   # TODO : Implement 4 real
-  #   Entities.get_domain_by_name("rbax")
-  # end
 end

@@ -1,5 +1,7 @@
 <h1><%= @permission.name %></h1>
 
+<%= Rbax.Entities.Permission.pretty_print(@permission) %>
+
 <div>
   <%= link gettext("Index"), to: Routes.permission_path(@conn, :index) %> | 
   <%= link gettext("Edit"), to: Routes.permission_path(@conn, :edit, @permission) %> | 

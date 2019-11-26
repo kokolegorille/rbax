@@ -6,20 +6,17 @@
   <table>
     <thead>
       <tr>
-        <th><%= gettext("Role") %></th>
-        <th><%= gettext("Context") %></th>
-        <th><%= gettext("Operation") %></th>
-        <th><%= gettext("Domain") %></th>
+        <th colspan="4"><%= gettext("Description") %></th>
         <th><%= gettext("Actions") %></th>
       </tr>
     </thead>
     <tbody>
       <%= for permission <- @permissions do %>
         <tr>
-          <td><%= permission.role.name %></td>
-          <td><%= permission.context.name %> [ <%= permission.context.rule %> ]</td>
-          <td><%= permission.operation.name %></td>
-          <td><%= permission.domain.name %></td>
+          <td>GRANT <%= permission.operation.name %></td>
+          <td>ON <%= permission.domain.name %></td>
+          <td>TO <%= permission.role.name %></td>
+          <td>WHEN <%= permission.context.name %> [ <%= permission.context.rule %> ]</td>
           <td>
             <%= link gettext("Edit"), to: Routes.permission_path(@conn, :edit, permission) %> | 
             <%= 
