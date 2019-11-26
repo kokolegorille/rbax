@@ -8,12 +8,13 @@
 
 /* SIMPLE MENU */
 
-header ul {
-  display: flex;
+.navbar {
   list-style-type: none;
+  display: flex;
+  justify-content: flex-end;
 }
-header ul > li {  
-  flex: 1;
+.navbar > li {  
+  margin-right: 1em;
 }
 
 /* SIMPLE FORM */

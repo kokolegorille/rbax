@@ -22,6 +22,6 @@ defmodule Rbax.Accounts do
   def authenticate(_), do: {:error, :unauthorized}
 
   defp check_password(subject, password) do
-    Pbkdf2.verify_pass(password, subject.password_hash)
+    subject.password_hash && Pbkdf2.verify_pass(password, subject.password_hash)
   end
 end

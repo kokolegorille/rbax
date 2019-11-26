@@ -20,6 +20,8 @@ defmodule Rbax.Entities.Permission do
     |> validate_required([:role_id, :context_id, :operation_id, :domain_id])
   end
 
+  # Permission needs to preload all!
+  # [:role, :context, domain: :objects, operation: :rights]
   def pretty_print(%__MODULE__{} = permission) do
     what = permission.operation.rights
     |> Enum.map(& &1.name)
