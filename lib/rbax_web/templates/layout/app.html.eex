@@ -11,6 +11,30 @@
     <header>
       <section class="container">
         <nav role="navigation">
+
+          <ul class="navbar">
+            <li><%= link gettext("Subjects"), to: Routes.subject_path(@conn, :index) %></li>
+            <li><%= link gettext("Roles"), to: Routes.role_path(@conn, :index) %></li>
+            <li><%= link gettext("Contexts"), to: Routes.context_path(@conn, :index) %></li>
+            <li><%= link gettext("Operations"), to: Routes.operation_path(@conn, :index) %></li>
+            <li><%= link gettext("Rights"), to: Routes.right_path(@conn, :index) %></li>
+            <li><%= link gettext("Domains"), to: Routes.domain_path(@conn, :index) %></li>
+            <li><%= link gettext("Objects"), to: Routes.object_path(@conn, :index) %></li>
+            <li><%= link gettext("Permissions"), to: Routes.permission_path(@conn, :index) %></li>
+            <li>
+              <%= if @current_user do %>
+                <%= 
+                  link gettext("Signout"), 
+                    to: Routes.session_path(@conn, :delete, @current_user), 
+                    method: "delete", 
+                    title: "connected as #{@current_user.name}"
+                %>
+              <% else %>
+                <%= link gettext("Signin"), to: Routes.session_path(@conn, :new) %>
+              <% end %>
+            </li>
+          </ul>
+          
           <%= navbar(@conn, @current_user) %>
         </nav>
       </section>

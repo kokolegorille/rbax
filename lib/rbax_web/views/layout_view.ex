@@ -25,11 +25,14 @@ defmodule RbaxWeb.LayoutView do
           title: "connected as #{subject.name}")
       end
 
-      [signout | links] |> Enum.reverse
+      # Append signout at the end!
+      [signout | Enum.reverse(links)]
+      |> Enum.reverse
     end
   end
 
   # This use Inflex for generic link
+  # This can fail when path does not exists!
   defp to_link(object_name, conn) do
     label = Inflex.pluralize(object_name)
     path = String.to_atom("#{Inflex.underscore(object_name)}_path")
@@ -43,54 +46,4 @@ defmodule RbaxWeb.LayoutView do
         nil
     end
   end
-
-  # defp to_link("Subject", conn) do
-  #   content_tag(:li) do
-  #     link(gettext("Subjects"), to: Routes.subject_path(conn, :index))
-  #   end
-  # end
-
-  # defp to_link("Role", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Roles"), to: Routes.role_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Context", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Contexts"), to: Routes.context_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Operation", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Operations"), to: Routes.operation_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Right", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Rights"), to: Routes.right_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Domain", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Domains"), to: Routes.domain_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Object", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Objects"), to: Routes.object_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link("Permission", conn) do
-  #   content_tag(:li) do
-  #     link gettext("Permissions"), to: Routes.permission_path(conn, :index)
-  #   end
-  # end
-
-  # defp to_link(_, _conn), do: nil
 end

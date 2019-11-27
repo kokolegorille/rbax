@@ -47,6 +47,11 @@ defmodule Rbax.Entities.Context do
     # end
     # """
 
+    # TODO : SANITIZE RULE FROM DANGEROUS INPUT!
+    # this will also raise a warning when s, o or both are not used!
+    #
+    # Example : warning: variable "s" is unused (if the variable is not meant to be used, prefix it with an underscore)
+    #
     string_rule = "fn s, o -> try do #{rule} rescue _  -> false end end"
 
     try do

@@ -4,6 +4,8 @@ defmodule Rbax.Engine do
 
   @permissions_preloads [:role, :context, domain: :objects, operation: :rights]
 
+  # This will check context rule vs object!
+  # In case object is not defined, use get_permissions
   def permissions_for(%Subject{} = s, o, opts \\ []) do
     get_permissions(s, o, opts)
     |> Enum.filter(fn p ->
@@ -28,7 +30,15 @@ defmodule Rbax.Engine do
     end
   end
 
-  def rights_for(%Subject{} = s, o, opts \\ []) do
+  def rights_for(s, o, _opts \\ [])
+  def rights_for(%Subject{} = s, o, opts) when is_binary(o) do
+    # rights_for(%Subject{} = s, Entities.get_object_by_name(o), opts)
+
+    get_permissions(s, Entities.get_object_by_name(o), opts)
+    |> Enum.flat_map(& &1.operation.rights)
+    |> Enum.uniq
+  end
+  def rights_for(%Subject{} = s, o, opts) do
     permissions_for(s, o, opts)
     |> Enum.flat_map(& &1.operation.rights)
     |> Enum.uniq
@@ -40,6 +50,36 @@ defmodule Rbax.Engine do
     |> Enum.filter(fn p -> Enum.any?(p.operation.rights, fn r -> r.name == readable_name end) end)
     |> Enum.flat_map(& &1.domain.objects)
     |> Enum.uniq
+  end
+
+  def can?(subject, resource, action, object) do
+    IO.inspect {subject, resource, action, object}, label: "CAN?"
+    case object do
+      nil ->
+        # Collection actions :
+        right_names = rights_for(subject, resource)
+        |> Enum.map(& &1.name)
+        |> IO.inspect()
+
+        case action do
+          :index -> Enum.member?(right_names, "read")
+          :new -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          :create -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          _ -> false
+        end
+      object ->
+        right_names = rights_for(subject, object)
+        |> Enum.map(& &1.name)
+        |> IO.inspect()
+
+        case action do
+          :show -> Enum.member?(right_names, "read")
+          :edit -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          :update -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          :delete -> Enum.member?(right_names, "delete")
+          _ -> false
+        end
+    end
   end
 
   # PRIVATE
@@ -54,7 +94,8 @@ defmodule Rbax.Engine do
 
     # Intersection of subject.permissions with perms from object, or domain
     tmp = subject.permissions -- perms
-    subject.permissions -- tmp
+    (subject.permissions -- tmp)
+    |> IO.inspect(label: "PERMS")
   end
 
   defp permissions_for_domain_name(domains, domain_name) do

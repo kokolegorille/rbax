@@ -24,6 +24,9 @@ defmodule RbaxWeb do
       import Plug.Conn
       import RbaxWeb.Gettext
       alias RbaxWeb.Router.Helpers, as: Routes
+
+      # Rbax
+      import RbaxWeb.Plugs.Rbax, only: [can?: 2]
     end
   end
 
