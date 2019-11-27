@@ -20,13 +20,30 @@ The last command seeds sample data.
     $ mix deps.get
     $ mix compile
     $ mix ecto.reset
+  </code>
+</pre>
+
+<p>
+To seed the database, use the following commands.
+</p>
+
+<pre>
+  <code>
     $ iex -S mix
     iex(1)> Rbax.Mock.Seeds.seed!
   </code>
 </pre>
 
+Finally, start the server and go to localhost:4000/
+
+<pre>
+  <code>
+    $ iex -S mix phx.server
+  </code>
+</pre>
+
 <p>Please signin with <b>admin</b>/<b>secret</b> to start.</p>
-<p>This will display Menu.</p>
+<p>This will display the Main menu.</p>
 
 <h2>Entities</h2>
 <ul>

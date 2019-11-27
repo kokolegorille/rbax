@@ -26,9 +26,23 @@ defmodule Rbax.Entities do
       [%Subject{}, ...]
 
   """
-  def list_subjects do
-    Repo.all(Subject)
+  def list_subjects(criteria \\ []) do
+    query = from p in Subject
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
+
+
 
   @doc """
   Gets a single subject.
@@ -182,8 +196,20 @@ defmodule Rbax.Entities do
       [%Role{}, ...]
 
   """
-  def list_roles do
-    Repo.all(Role)
+  def list_roles(criteria \\ []) do
+    query = from p in Role
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -325,8 +351,20 @@ defmodule Rbax.Entities do
       [%Context{}, ...]
 
   """
-  def list_contexts do
-    Repo.all(Context)
+  def list_contexts(criteria \\ []) do
+    query = from p in Context
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -456,8 +494,20 @@ defmodule Rbax.Entities do
       [%Operation{}, ...]
 
   """
-  def list_operations do
-    Repo.all(Operation)
+  def list_operations(criteria \\ []) do
+    query = from p in Operation
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -599,8 +649,20 @@ defmodule Rbax.Entities do
       [%Right{}, ...]
 
   """
-  def list_rights do
-    Repo.all(Right)
+  def list_rights(criteria \\ []) do
+    query = from p in Right
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -742,8 +804,20 @@ defmodule Rbax.Entities do
       [%Domain{}, ...]
 
   """
-  def list_domains do
-    Repo.all(Domain)
+  def list_domains(criteria \\ []) do
+    query = from p in Domain
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -885,8 +959,20 @@ defmodule Rbax.Entities do
       [%Object{}, ...]
 
   """
-  def list_objects do
-    Repo.all(Object)
+  def list_objects(criteria \\ []) do
+    query = from p in Object
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all
   end
 
   @doc """
@@ -1191,4 +1277,18 @@ defmodule Rbax.Entities do
   ########################################
 
   defdelegate fun_rule(context), to: Context
+
+  ########################################
+  ### HELPERS
+  ########################################
+
+  defp filter_with(filters, query) do
+    Enum.reduce(filters, query, fn
+      {:matching, term}, query ->
+        pattern = "%#{term}%"
+        from q in query,
+          where:
+            ilike(q.name, ^pattern)
+    end)
+  end
 end
