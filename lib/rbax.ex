@@ -85,7 +85,10 @@ defmodule Rbax do
   defdelegate update_permission(permission, attrs), to: Entities
   defdelegate delete_permission(permission), to: Entities
   defdelegate change_permission(permission), to: Entities
+  #
+  defdelegate pretty_print(permission), to: Entities
 
+  ## Links
   defdelegate link_subject_role(subject, role), to: Entities
   defdelegate unlink_subject_role(subject, role), to: Entities
 

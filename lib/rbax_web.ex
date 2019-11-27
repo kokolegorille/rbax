@@ -48,6 +48,9 @@ defmodule RbaxWeb do
       # Checkbox helper
       import RbaxWeb.Helpers.CheckboxHelper
 
+      # Debug Helper
+      import RbaxWeb.Helpers.DebugHelper, only: [rbax_debug: 2]
+
       import RbaxWeb.ErrorHelpers
       import RbaxWeb.Gettext
       alias RbaxWeb.Router.Helpers, as: Routes

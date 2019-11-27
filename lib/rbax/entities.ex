@@ -1277,6 +1277,7 @@ defmodule Rbax.Entities do
   ########################################
 
   defdelegate fun_rule(context), to: Context
+  defdelegate pretty_print(permission), to: Permission
 
   ########################################
   ### HELPERS

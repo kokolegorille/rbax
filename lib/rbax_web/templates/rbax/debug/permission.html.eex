@@ -1,0 +1,1 @@
+<%= Rbax.Entities.pretty_print @permission %>

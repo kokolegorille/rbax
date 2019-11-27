@@ -19,3 +19,5 @@
       data: [confirm: gettext("Are you sure?")]
   %>  
 </div>
+
+<%= rbax_debug(@current_user, @subject) %>

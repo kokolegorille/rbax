@@ -1,0 +1,14 @@
+<div class="debug">
+  <h3>Debug</h3>
+
+  <h4>Subject</h4>
+  <%= render "current_user.html", current_user: @current_user %>
+
+  <h4>Object</h4>
+  <%= render "object.html", object: @object %>
+
+  <h4>Permissions</h4>
+  <%= for permission <- @permissions do %>
+    <%= render "permission.html", permission: permission %>
+  <% end %>
+</div>

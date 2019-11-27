@@ -18,3 +18,5 @@
 <% else %>
   <p><%= gettext("The list is empty.") %></p>
 <% end %>
+
+<%= rbax_debug(@current_user, "Subject") %>

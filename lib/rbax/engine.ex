@@ -106,7 +106,10 @@ defmodule Rbax.Engine do
     |> Enum.uniq
   end
 
-  defp get_object(o) do
+  defp get_object(o) when is_binary(o) do
+    Entities.get_object_by_name(o)
+  end
+  defp get_object(o) when is_map(o) do
     o.__struct__
     |> to_string
     |> String.split(".")
