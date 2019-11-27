@@ -7,7 +7,7 @@ defmodule RbaxWeb.Rbax.DomainController do
   plug :authenticate
 
   def index(conn, _params) do
-    domains =  Entities.list_domains()
+    domains =  Entities.list_domains(order: :asc)
     |> preload_objects()
     render(conn, "index.html", domains: domains)
   end

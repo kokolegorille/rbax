@@ -13,6 +13,8 @@ defmodule Rbax.Entities do
     Permission,
   }
 
+  @order_field :name
+
   ########################################
   ### SUBJECTS
   ########################################
@@ -37,12 +39,10 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
-
-
 
   @doc """
   Gets a single subject.
@@ -207,7 +207,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
@@ -362,7 +362,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
@@ -505,7 +505,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
@@ -660,7 +660,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
@@ -815,7 +815,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end
@@ -970,7 +970,7 @@ defmodule Rbax.Entities do
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from p in query, order_by: [{^order, ^@order_field}]
     end)
     |> Repo.all
   end

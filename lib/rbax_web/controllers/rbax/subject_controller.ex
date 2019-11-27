@@ -46,7 +46,7 @@ defmodule RbaxWeb.Rbax.SubjectController do
   end
 
   def index(conn, _params) do
-    subjects =  Entities.list_subjects()
+    subjects =  Entities.list_subjects(order: :asc)
     |> preload_roles()
     render(conn, "index.html", subjects: subjects)
   end

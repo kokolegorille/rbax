@@ -7,7 +7,7 @@ defmodule RbaxWeb.Rbax.RoleController do
   plug :authenticate
 
   def index(conn, _params) do
-    roles =  Entities.list_roles()
+    roles =  Entities.list_roles(order: :asc)
     |> preload_subjects()
     render(conn, "index.html", roles: roles)
   end

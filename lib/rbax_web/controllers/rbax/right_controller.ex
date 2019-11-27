@@ -7,7 +7,7 @@ defmodule RbaxWeb.Rbax.RightController do
   plug :authenticate
 
   def index(conn, _params) do
-    rights =  Entities.list_rights()
+    rights =  Entities.list_rights(order: :asc)
     |> preload_operations()
     render(conn, "index.html", rights: rights)
   end

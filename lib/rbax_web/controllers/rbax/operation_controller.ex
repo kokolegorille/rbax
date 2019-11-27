@@ -7,7 +7,7 @@ defmodule RbaxWeb.Rbax.OperationController do
   plug :authenticate
 
   def index(conn, _params) do
-    operations =  Entities.list_operations()
+    operations =  Entities.list_operations(order: :asc)
     |> preload_rights()
     render(conn, "index.html", operations: operations)
   end
