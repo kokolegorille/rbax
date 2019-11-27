@@ -12,11 +12,20 @@
   list-style-type: none;
   display: flex;
   justify-content: flex-end;
-}
-.navbar > li {  
-  margin-right: 1em;
-}
 
+  padding-bottom: 1rem;
+  border-bottom: 1px solid;
+}
+.navbar > li { margin-right: 1em; }
+
+.navbar  a { 
+  text-decoration: none; 
+  padding: 8px;
+}
+.navbar  a:hover { 
+  background-color: #95a5a6;
+  color: #ecf0f1;
+}
 /* SIMPLE FORM */
 
 .form input[type="text"],

@@ -1,5 +1,13 @@
 <h1>Rbax</h1>
 
+<p>
+Role Based Access control for Phoenix/Elixir.
+</p>
+
+<p>
+Generic authorization system, auto-configurable.
+</p>
+
 <h2>Installation</h2>
 <p>
 After getting the source, go into the directory and setup project.
@@ -17,5 +25,17 @@ The last command seeds sample data.
   </code>
 </pre>
 
-<p>Please signin with <b>admin</b>, password <b>secret</b> to start.</p>
+<p>Please signin with <b>admin</b>/<b>secret</b> to start.</p>
 <p>This will display Menu.</p>
+
+<h2>Entities</h2>
+<ul>
+  <li>Subjects</li>
+  <li>Roles</li>
+  <li>Contexts</li>
+  <li>Operations</li>
+  <li>Rights</li>
+  <li>Domains</li>
+  <li>Objects</li>
+  <li>Permissions</li>
+</ul>
