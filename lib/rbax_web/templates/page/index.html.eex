@@ -1,1 +1,21 @@
-<h1><%= gettext("Welcome") %></h1>
+<h1>Rbax</h1>
+
+<h2>Installation</h2>
+<p>
+After getting the source, go into the directory and setup project.
+The last command seeds sample data.
+</p>
+
+<pre>
+  <code>
+    $ cd rbax
+    $ mix deps.get
+    $ mix compile
+    $ mix ecto.reset
+    $ iex -S mix
+    iex(1)> Rbax.Mock.Seeds.seed!
+  </code>
+</pre>
+
+<p>Please signin with <b>admin</b>, password <b>secret</b> to start.</p>
+<p>This will display Menu.</p>

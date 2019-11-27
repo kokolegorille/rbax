@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.SubjectController do
   alias Rbax.Entities
   alias Entities.Subject
 
+  plug :authenticate
+
   # Use plug action to check rbax
   # def action(conn, _) do
   #   # Preload object to test

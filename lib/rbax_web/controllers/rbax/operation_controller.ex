@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.OperationController do
   alias Rbax.Entities
   alias Entities.Operation
 
+  plug :authenticate
+
   def index(conn, _params) do
     operations =  Entities.list_operations()
     |> preload_rights()

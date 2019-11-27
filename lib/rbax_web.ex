@@ -25,6 +25,9 @@ defmodule RbaxWeb do
       import RbaxWeb.Gettext
       alias RbaxWeb.Router.Helpers, as: Routes
 
+      # Auth
+      import RbaxWeb.Plugs.Auth, only: [authenticate: 2]
+
       # Rbax
       import RbaxWeb.Plugs.Rbax, only: [can?: 2]
     end

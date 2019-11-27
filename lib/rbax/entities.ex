@@ -152,8 +152,21 @@ defmodule Rbax.Entities do
       %Ecto.Changeset{source: %Subject{}}
 
   """
-  def change_subject(%Subject{} = subject) do
-    Subject.changeset(subject, %{})
+  def change_subject(%Subject{} = subject, attrs \\ %{}) do
+    Subject.changeset(subject, attrs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking subject registration changes.
+
+  ## Examples
+
+      iex> registration_change_subject(subject)
+      %Ecto.Changeset{source: %Subject{}}
+
+  """
+  def registration_change_subject(%Subject{} = subject, attrs \\ %{}) do
+    Subject.registration_changeset(subject, attrs)
   end
 
   ########################################

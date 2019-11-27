@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.DomainController do
   alias Rbax.Entities
   alias Entities.Domain
 
+  plug :authenticate
+
   def index(conn, _params) do
     domains =  Entities.list_domains()
     |> preload_objects()

@@ -17,6 +17,7 @@ defmodule Rbax do
   defdelegate update_subject(subject, attrs), to: Entities
   defdelegate delete_subject(subject), to: Entities
   defdelegate change_subject(subject), to: Entities
+  defdelegate registration_change_subject(subject), to: Entities
 
   defdelegate list_roles, to: Entities
   defdelegate get_role!(id), to: Entities

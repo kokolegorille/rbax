@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.RoleController do
   alias Rbax.Entities
   alias Entities.Role
 
+  plug :authenticate
+
   def index(conn, _params) do
     roles =  Entities.list_roles()
     |> preload_subjects()

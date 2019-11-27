@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.ContextController do
   alias Rbax.Entities
   alias Entities.Context
 
+  plug :authenticate
+
   def index(conn, _params) do
     contexts =  Entities.list_contexts()
     render(conn, "index.html", contexts: contexts)

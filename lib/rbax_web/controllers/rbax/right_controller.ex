@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.RightController do
   alias Rbax.Entities
   alias Entities.Right
 
+  plug :authenticate
+
   def index(conn, _params) do
     rights =  Entities.list_rights()
     |> preload_operations()

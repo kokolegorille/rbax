@@ -4,6 +4,8 @@ defmodule RbaxWeb.Rbax.PermissionController do
   alias Rbax.Entities
   alias Entities.Permission
 
+  plug :authenticate
+
   def index(conn, _params) do
     permissions =  Entities.list_permissions()
     |> preload_associations()
