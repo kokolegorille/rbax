@@ -18,7 +18,7 @@ defmodule RbaxWeb.LayoutView do
 
   def navbar(conn, subject) do
     content_tag(:ul, class: "navbar") do
-      links = Engine.readable_objects(subject)
+      links = Engine.readable_resources(subject)
       |> Enum.map(& &1.name)
       |> Enum.map(& to_link(&1, conn))
       |> Enum.filter(& not is_nil(&1))
@@ -44,9 +44,9 @@ defmodule RbaxWeb.LayoutView do
 
   # This use Inflex for generic link
   # This can fail when path does not exists!
-  defp to_link(object_name, conn) do
-    label = pluralize(object_name)
-    path = String.to_atom("#{underscore(object_name)}_path")
+  defp to_link(resource_name, conn) do
+    label = pluralize(resource_name)
+    path = String.to_atom("#{underscore(resource_name)}_path")
     try do
       content_tag(:li) do
         link(label, to: apply(Routes, path, [conn, :index]))

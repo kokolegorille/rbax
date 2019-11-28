@@ -1,0 +1,5 @@
+<%= if is_binary(@resource) do %>
+  <%= @resource %>
+<% else %>
+  <%= @resource.name %>
+<% end %>

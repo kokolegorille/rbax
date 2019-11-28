@@ -112,5 +112,5 @@ defmodule RbaxWeb.Rbax.PermissionController do
 
   # Private
 
-  defp preload_associations(any), do: Rbax.Repo.preload(any, [:role, :context, domain: :objects, operation: :rights])
+  defp preload_associations(any), do: Rbax.Repo.preload(any, [:role, :context, domain: :resources, operation: :rights])
 end

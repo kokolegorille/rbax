@@ -1,0 +1,9 @@
+<h1><%= gettext "Edit Resource" %></h1>
+
+<%= 
+  render "form.html", 
+    action: Routes.resource_path(@conn, :update, @resource), 
+    changeset: @changeset,
+    cancel: Routes.resource_path(@conn, :show, @resource),
+    domains: @domains
+%>

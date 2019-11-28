@@ -76,22 +76,22 @@ defmodule Rbax.Mock.Seeds do
 
       # OBJECTS
 
-      {:ok, subject} = Entities.create_object(%{name: "Subject"})
-      {:ok, role} = Entities.create_object(%{name: "Role"})
-      {:ok, context} = Entities.create_object(%{name: "Context"})
-      {:ok, operation} = Entities.create_object(%{name: "Operation"})
-      {:ok, right} = Entities.create_object(%{name: "Right"})
-      {:ok, domain} = Entities.create_object(%{name: "Domain"})
-      {:ok, object} = Entities.create_object(%{name: "Object"})
-      {:ok, permission} = Entities.create_object(%{name: "Permission"})
+      {:ok, subject} = Entities.create_resource(%{name: "Subject"})
+      {:ok, role} = Entities.create_resource(%{name: "Role"})
+      {:ok, context} = Entities.create_resource(%{name: "Context"})
+      {:ok, operation} = Entities.create_resource(%{name: "Operation"})
+      {:ok, right} = Entities.create_resource(%{name: "Right"})
+      {:ok, domain} = Entities.create_resource(%{name: "Domain"})
+      {:ok, resource} = Entities.create_resource(%{name: "Resource"})
+      {:ok, permission} = Entities.create_resource(%{name: "Permission"})
 
       # DOMAINS
 
       rbax_ids = [
-        subject, role, context, operation, right, domain, object, permission
+        subject, role, context, operation, right, domain, resource, permission
       ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "RBAX OBJECTS")
 
-      {:ok, rbax} = Entities.create_domain(%{"name" => "Rbax", "objects" => rbax_ids})
+      {:ok, rbax} = Entities.create_domain(%{"name" => "Rbax", "resources" => rbax_ids})
 
       # PERMISSIONS
 

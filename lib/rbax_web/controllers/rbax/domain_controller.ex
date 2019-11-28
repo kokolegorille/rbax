@@ -8,13 +8,13 @@ defmodule RbaxWeb.Rbax.DomainController do
 
   def index(conn, _params) do
     domains =  Entities.list_domains(order: :asc)
-    |> preload_objects()
+    |> preload_resources()
     render(conn, "index.html", domains: domains)
   end
 
   def show(conn, %{"id" => id}) do
     with %Domain{} = domain <- Entities.get_domain!(id) do
-      render(conn, "show.html", domain: preload_objects(domain))
+      render(conn, "show.html", domain: preload_resources(domain))
     else
       nil ->
         conn
@@ -24,11 +24,11 @@ defmodule RbaxWeb.Rbax.DomainController do
   end
 
   def new(conn, _params) do
-    objects = Entities.list_objects()
+    resources = Entities.list_resources()
     changeset = Domain.changeset(
-      preload_objects(%Domain{})
+      preload_resources(%Domain{})
     )
-    render(conn, "new.html", changeset: changeset, objects: objects)
+    render(conn, "new.html", changeset: changeset, resources: resources)
   end
 
   def create(conn, %{"domain" => domain_params}) do
@@ -38,22 +38,22 @@ defmodule RbaxWeb.Rbax.DomainController do
         |> redirect(to: Routes.domain_path(conn, :show, domain))
     else
       {:error, %Ecto.Changeset{} = changeset} ->
-        data = preload_objects(changeset.data)
-        objects = Entities.list_objects()
-        render(conn, "new.html", changeset: %{changeset | data: data}, objects: objects)
+        data = preload_resources(changeset.data)
+        resources = Entities.list_resources()
+        render(conn, "new.html", changeset: %{changeset | data: data}, resources: resources)
     end
   end
 
   def edit(conn, %{"id" => id}) do
-    domain = id |> Entities.get_domain!() |> preload_objects()
+    domain = id |> Entities.get_domain!() |> preload_resources()
 
     changeset = Entities.change_domain(domain)
-    objects = Entities.list_objects()
-    render(conn, "edit.html", domain: domain, changeset: changeset, objects: objects)
+    resources = Entities.list_resources()
+    render(conn, "edit.html", domain: domain, changeset: changeset, resources: resources)
   end
 
   def update(conn, %{"id" => id, "domain" => domain_params}) do
-    domain = id |> Entities.get_domain!() |> preload_objects()
+    domain = id |> Entities.get_domain!() |> preload_resources()
 
     case Entities.update_domain(domain, domain_params) do
       {:ok, domain} ->
@@ -62,12 +62,12 @@ defmodule RbaxWeb.Rbax.DomainController do
         |> redirect(to: Routes.domain_path(conn, :show, domain))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        data = preload_objects(changeset.data)
-        objects = Entities.list_objects()
+        data = preload_resources(changeset.data)
+        resources = Entities.list_resources()
         render(conn, "edit.html",
           domain: domain,
           changeset: %{changeset | data: data},
-          objects: objects
+          resources: resources
         )
     end
   end
@@ -83,5 +83,5 @@ defmodule RbaxWeb.Rbax.DomainController do
 
   # Private
 
-  defp preload_objects(any), do: Rbax.Repo.preload(any, :objects)
+  defp preload_resources(any), do: Rbax.Repo.preload(any, :resources)
 end

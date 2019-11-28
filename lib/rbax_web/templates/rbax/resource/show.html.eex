@@ -1,0 +1,21 @@
+<h1><%= @resource.name %></h1>
+
+<%= if length(@resource.domains) > 0 do %>
+  <h3>Domains</h3>
+  <ul>
+  <%= for domain <- @resource.domains do %>
+    <li><%= domain.name %></li>
+  <% end %>  
+  </ul>
+<% end %>
+
+<div>
+  <%= link gettext("Index"), to: Routes.resource_path(@conn, :index) %> | 
+  <%= link gettext("Edit"), to: Routes.resource_path(@conn, :edit, @resource) %> | 
+  <%= 
+    link gettext("Delete"), 
+      to: Routes.resource_path(@conn, :delete, @resource), 
+      method: :delete, 
+      data: [confirm: gettext("Are you sure?")]
+  %>  
+</div>

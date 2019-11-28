@@ -9,7 +9,7 @@ defmodule Rbax.Entities do
     Subject, Role,
     Context,
     Operation, Right,
-    Domain, Object,
+    Domain, Resource,
     Permission,
   }
 
@@ -884,7 +884,7 @@ defmodule Rbax.Entities do
   def create_domain(attrs \\ %{}) do
     %Domain{}
     |> Domain.changeset(attrs)
-    |> maybe_put_objects(attrs)
+    |> maybe_put_resources(attrs)
     |> Repo.insert()
   end
 
@@ -903,18 +903,18 @@ defmodule Rbax.Entities do
   def update_domain(%Domain{} = domain, attrs) do
     domain
     |> Domain.changeset(attrs)
-    |> maybe_put_objects(attrs)
+    |> maybe_put_resources(attrs)
     |> Repo.update()
   end
 
   # Helper for many_to_many association
   # This will delete previous associations if nil!
-  defp maybe_put_objects(changeset, attrs) do
-    objects = (attrs["objects"] || [])
+  defp maybe_put_resources(changeset, attrs) do
+    resources = (attrs["resources"] || [])
       |> Enum.map(& String.to_integer(&1))
-      |> get_objects()
+      |> get_resources()
 
-    Ecto.Changeset.put_assoc(changeset, :objects, objects)
+    Ecto.Changeset.put_assoc(changeset, :resources, resources)
   end
 
   @doc """
@@ -951,16 +951,16 @@ defmodule Rbax.Entities do
   ########################################
 
   @doc """
-  Returns the list of objects.
+  Returns the list of resources.
 
   ## Examples
 
-      iex> list_objects()
-      [%Object{}, ...]
+      iex> list_resources()
+      [%Resource{}, ...]
 
   """
-  def list_objects(criteria \\ []) do
-    query = from p in Object
+  def list_resources(criteria \\ []) do
+    query = from p in Resource
 
     Enum.reduce(criteria, query, fn
       {:limit, limit}, query ->
@@ -976,88 +976,88 @@ defmodule Rbax.Entities do
   end
 
   @doc """
-  Gets a single object.
+  Gets a single resource.
 
-  Raises `Ecto.NoResultsError` if the Object does not exist.
+  Raises `Ecto.NoResultsError` if the Resource does not exist.
 
   ## Examples
 
-      iex> get_object!(123)
-      %Object{}
+      iex> get_resource!(123)
+      %Resource{}
 
-      iex> get_object!(456)
+      iex> get_resource!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_object!(id), do: Repo.get!(Object, id)
+  def get_resource!(id), do: Repo.get!(Resource, id)
 
   @doc """
-  Gets a object by name
+  Gets a resource by name
 
-  Returns nil if the Object does not exist.
+  Returns nil if the Resource does not exist.
 
   ## Examples
 
-      iex> get_object_by_name("good_value")
-      %Object{}
+      iex> get_resource_by_name("good_value")
+      %Resource{}
 
-      iex> get_object_by_name("bad_value")
+      iex> get_resource_by_name("bad_value")
       nil
 
   """
-  def get_object_by_name(name), do: Repo.get_by(Object, name: name)
+  def get_resource_by_name(name), do: Repo.get_by(Resource, name: name)
 
   @doc """
-  Gets objects by ids
+  Gets resources by ids
 
-  Returns [] if objects do not exist.
+  Returns [] if resources do not exist.
 
   ## Examples
 
-      iex> get_objects([1, 2, 3])
-      [%Object{}]
+      iex> get_resources([1, 2, 3])
+      [%Resource{}]
 
-      iex> get_objects([111, 222, 333])
+      iex> get_resources([111, 222, 333])
       []
 
   """
-  def get_objects(nil), do: []
-  def get_objects(ids), do: Repo.all(from item in Object, where: item.id in ^ids)
+  def get_resources(nil), do: []
+  def get_resources(ids), do: Repo.all(from item in Resource, where: item.id in ^ids)
 
   @doc """
-  Creates a object.
+  Creates a resource.
 
   ## Examples
 
-      iex> create_object(%{field: value})
-      {:ok, %Object{}}
+      iex> create_resource(%{field: value})
+      {:ok, %Resource{}}
 
-      iex> create_object(%{field: bad_value})
+      iex> create_resource(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_object(attrs \\ %{}) do
-    %Object{}
-    |> Object.changeset(attrs)
+  def create_resource(attrs \\ %{}) do
+    %Resource{}
+    |> Resource.changeset(attrs)
     |> maybe_put_domains(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a object.
+  Updates a resource.
 
   ## Examples
 
-      iex> update_object(object, %{field: new_value})
-      {:ok, %Object{}}
+      iex> update_resource(resource, %{field: new_value})
+      {:ok, %Resource{}}
 
-      iex> update_object(object, %{field: bad_value})
+      iex> update_resource(resource, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_object(%Object{} = object, attrs) do
-    object
-    |> Object.changeset(attrs)
+  def update_resource(%Resource{} = resource, attrs) do
+    resource
+    |> Resource.changeset(attrs)
     |> maybe_put_domains(attrs)
     |> Repo.update()
   end
@@ -1073,32 +1073,32 @@ defmodule Rbax.Entities do
   end
 
   @doc """
-  Deletes a Object.
+  Deletes a Resource.
 
   ## Examples
 
-      iex> delete_object(object)
-      {:ok, %Object{}}
+      iex> delete_resource(resource)
+      {:ok, %Resource{}}
 
-      iex> delete_object(object)
+      iex> delete_resource(resource)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_object(%Object{} = object) do
-    Repo.delete(object)
+  def delete_resource(%Resource{} = resource) do
+    Repo.delete(resource)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking object changes.
+  Returns an `%Ecto.Changeset{}` for tracking resource changes.
 
   ## Examples
 
-      iex> change_object(object)
-      %Ecto.Changeset{source: %Object{}}
+      iex> change_resource(resource)
+      %Ecto.Changeset{source: %Resource{}}
 
   """
-  def change_object(%Object{} = object) do
-    Object.changeset(object, %{})
+  def change_resource(%Resource{} = resource) do
+    Resource.changeset(resource, %{})
   end
 
   ########################################
@@ -1243,23 +1243,23 @@ defmodule Rbax.Entities do
     |> Repo.update
   end
 
-  def link_domain_object(%Domain{} = domain, %Object{} = object) do
-    domain = Repo.preload(domain, :objects)
-    objects = [object | domain.objects]
+  def link_domain_resource(%Domain{} = domain, %Resource{} = resource) do
+    domain = Repo.preload(domain, :resources)
+    resources = [resource | domain.resources]
 
     domain
     |> Ecto.Changeset.change
-    |> Ecto.Changeset.put_assoc(:objects, objects)
+    |> Ecto.Changeset.put_assoc(:resources, resources)
     |> Repo.update
   end
 
-  def unlink_domain_object(%Domain{} = domain, %Object{} = object) do
-    domain = Repo.preload(domain, :objects)
-    objects = List.delete(domain.objects, object)
+  def unlink_domain_resource(%Domain{} = domain, %Resource{} = resource) do
+    domain = Repo.preload(domain, :resources)
+    resources = List.delete(domain.resources, resource)
 
     domain
     |> Ecto.Changeset.change
-    |> Ecto.Changeset.put_assoc(:objects, objects)
+    |> Ecto.Changeset.put_assoc(:resources, resources)
     |> Repo.update
   end
 

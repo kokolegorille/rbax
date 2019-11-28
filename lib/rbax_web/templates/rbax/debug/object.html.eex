@@ -1,5 +1,0 @@
-<%= if is_binary(@object) do %>
-  <%= @object %>
-<% else %>
-  <%= @object.name %>
-<% end %>

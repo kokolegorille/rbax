@@ -1,0 +1,20 @@
+<h1><%= gettext("Resources") %></h1>
+
+<%= link gettext("New"), to: Routes.resource_path(@conn, :new) %>
+
+<%= if length(@resources) > 0 do %>
+  <ul>
+  <%= for resource <- @resources do %>
+    <li>
+      <%= link resource.name, to: Routes.resource_path(@conn, :show, resource.id) %>
+      [
+        <%= 
+          resource.domains |> Enum.map(& &1.name) |> Enum.join(", ")
+        %>
+      ]
+    </li>
+  <% end %>  
+  </ul>
+<% else %>
+  <p><%= gettext("The list is empty.") %></p>
+<% end %>

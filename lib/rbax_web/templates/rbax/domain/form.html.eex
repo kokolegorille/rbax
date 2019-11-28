@@ -24,9 +24,9 @@
     <%=
       multiselect_checkboxes(
         f,
-        :objects,
-        Enum.map(@objects, fn o -> { o.name, o.id } end),
-        selected: Enum.map(@changeset.data.objects,&(&1.id))
+        :resources,
+        Enum.map(@resources, fn o -> { o.name, o.id } end),
+        selected: Enum.map(@changeset.data.resources,&(&1.id))
       )
     %>
   </div>

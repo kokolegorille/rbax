@@ -1,11 +1,11 @@
-defmodule Rbax.Entities.Object do
+defmodule Rbax.Entities.Resource do
   use Ecto.Schema
   import Ecto.Changeset
   alias Rbax.Entities.Domain
 
-  schema "objects" do
+  schema "resources" do
     field :name, :string
-    many_to_many :domains, Domain, join_through: "domain_object", on_replace: :delete
+    many_to_many :domains, Domain, join_through: "domain_resource", on_replace: :delete
     has_many :permissions, through: [:domains, :permissions]
     timestamps()
   end

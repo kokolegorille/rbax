@@ -1,9 +1,9 @@
 <h1><%= @subject.name %></h1>
 
-<%= if length(@subject.roles) > 0 do %>
+<%= if length(@roles) > 0 do %>
   <h3>Roles</h3>
   <ul>
-  <%= for role <- @subject.roles do %>
+  <%= for role <- @roles do %>
     <li><%= role.name %></li>
   <% end %>  
   </ul>

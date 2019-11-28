@@ -6,11 +6,11 @@
   </ul>
 <% end %>
 
-<%= if length(@domain.objects) > 0 do %>
-  <h3>Objects</h3>
+<%= if length(@domain.resources) > 0 do %>
+  <h3>Resources</h3>
   <ul>
-  <%= for object <- @domain.objects do %>
-    <li><%= object.name %></li>
+  <%= for resource <- @domain.resources do %>
+    <li><%= resource.name %></li>
   <% end %>  
   </ul>
 <% end %>

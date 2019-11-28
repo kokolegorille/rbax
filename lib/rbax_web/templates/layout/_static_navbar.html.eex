@@ -5,7 +5,7 @@
   <li><%= link gettext("Operations"), to: Routes.operation_path(@conn, :index) %></li>
   <li><%= link gettext("Rights"), to: Routes.right_path(@conn, :index) %></li>
   <li><%= link gettext("Domains"), to: Routes.domain_path(@conn, :index) %></li>
-  <li><%= link gettext("Objects"), to: Routes.object_path(@conn, :index) %></li>
+  <li><%= link gettext("Resources"), to: Routes.resource_path(@conn, :index) %></li>
   <li><%= link gettext("Permissions"), to: Routes.permission_path(@conn, :index) %></li>
   <li>
     <%= if @current_user do %>

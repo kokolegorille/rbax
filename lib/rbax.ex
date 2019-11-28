@@ -70,14 +70,14 @@ defmodule Rbax do
   defdelegate delete_domain(domain), to: Entities
   defdelegate change_domain(domain), to: Entities
 
-  defdelegate list_objects(criteria \\ []), to: Entities
-  defdelegate get_object!(id), to: Entities
-  defdelegate get_object_by_name(name), to: Entities
-  defdelegate get_objects(ids), to: Entities
-  defdelegate create_object(attrs), to: Entities
-  defdelegate update_object(object, attrs), to: Entities
-  defdelegate delete_object(object), to: Entities
-  defdelegate change_object(object), to: Entities
+  defdelegate list_resources(criteria \\ []), to: Entities
+  defdelegate get_resource!(id), to: Entities
+  defdelegate get_resource_by_name(name), to: Entities
+  defdelegate get_resources(ids), to: Entities
+  defdelegate create_resource(attrs), to: Entities
+  defdelegate update_resource(resource, attrs), to: Entities
+  defdelegate delete_resource(resource), to: Entities
+  defdelegate change_resource(resource), to: Entities
 
   defdelegate list_permissions, to: Entities
   defdelegate get_permission!(id), to: Entities
@@ -95,6 +95,6 @@ defmodule Rbax do
   defdelegate link_operation_right(operation, right), to: Entities
   defdelegate unlink_operation_right(operation, right), to: Entities
 
-  defdelegate link_domain_object(domain, object), to: Entities
-  defdelegate unlink_domain_object(domain, object), to: Entities
+  defdelegate link_domain_resource(domain, resource), to: Entities
+  defdelegate unlink_domain_resource(domain, resource), to: Entities
 end

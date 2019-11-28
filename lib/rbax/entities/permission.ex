@@ -31,7 +31,6 @@ defmodule Rbax.Entities.Permission do
       do: "#{permission.domain.name} / #{permission.domain.context}",
       else: permission.domain.name
 
-
     to = permission.role.name
     when_name = if permission.context.rule,
       do: "#{permission.context.name} [ #{permission.context.rule} ]",

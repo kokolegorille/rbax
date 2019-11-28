@@ -29,7 +29,7 @@ defmodule RbaxWeb.Router do
       resources("/operations", OperationController, except: [:show])
       resources("/rights", RightController, except: [:show])
       resources("/domains", DomainController)
-      resources("/objects", ObjectController)
+      resources("/resources", ResourceController)
       resources("/permissions", PermissionController, except: [:show])
     end
   end

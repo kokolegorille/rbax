@@ -12,7 +12,7 @@
       <% end %>
       [
         <%= 
-          domain.objects |> Enum.map(& &1.name) |> Enum.join(", ")
+          domain.resources |> Enum.map(& &1.name) |> Enum.join(", ")
         %>
       ]
     </li>
