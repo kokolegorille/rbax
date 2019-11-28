@@ -6,46 +6,34 @@ defmodule RbaxWeb.Rbax.SubjectController do
 
   plug :authenticate
 
-  # Use plug action to check rbax
-  # def action(conn, _) do
-  #   # Preload object to test
-  #   # TODO : Check for nested resources
-
-  #   object_or_nil = load_object(conn, conn.params)
-
-  #   IO.inspect object_or_nil, label: "OBJECT"
-
-  #   can = Engine.can?(
-  #     conn.assigns.current_user,
-  #     controller_module(conn),
-  #     action_name(conn),
-  #     object_or_nil
-  #   )
-
-  #   IO.inspect can, label: "CAN?"
-
-  #   apply(__MODULE__, action_name(conn), [conn, conn.params])
-  # end
-
   def action(conn, _opts) do
     object_or_nil = case conn.params do
       %{"id" => id} -> Entities.get_subject!(String.to_integer(id))
       _ -> nil
     end
 
-    if not can?(conn, object_or_nil) do
+    if can?(conn, object_or_nil) do
+      apply(__MODULE__, action_name(conn), [conn, conn.params])
+    else
+      # conn
+      # |> put_flash(:error, "Your security level disallow access to that page.")
+      # |> redirect(to: Routes.session_path(conn, :new))
+      # |> halt()
+
       conn
       |> put_flash(:error, "Your security level disallow access to that page.")
-      |> redirect(to: Routes.session_path(conn, :new))
+      |> redirect(to: Routes.home_path(conn, :not_authorized))
       |> halt()
-    else
-      apply(__MODULE__, action_name(conn), [conn, conn.params])
     end
   end
 
   def index(conn, _params) do
-    subjects =  Entities.list_subjects(order: :asc)
-    |> preload_roles()
+    # subjects =  Entities.list_subjects(order: :asc)
+    # |> preload_roles()
+
+    subjects =  Entities.list_subjects_query(order: :asc, preload: :roles)
+    |> Entities.run()
+
     render(conn, "index.html", subjects: subjects)
   end
 

@@ -5,6 +5,7 @@ defmodule Rbax.Mock.Seeds do
   @pass "secret"
 
   def seed! do
+    IO.puts "START SEED..."
     Repo.transaction(fn ->
       # SUBJECTS
       {:ok, admin} = Entities.create_subject(%{name: "admin", password: @pass})
@@ -27,18 +28,19 @@ defmodule Rbax.Mock.Seeds do
       # Create association_ids
       admin_ids = [to_string(admin.id)]
 
-      hobbit_ids = [
-        bilbo, frodo, samwise, meriadoc, peregrin
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "HOBBITS")
+      hobbit_ids = [bilbo, frodo, samwise, meriadoc, peregrin]
+      |> Enum.map(& to_string(&1.id))
+      #|> IO.inspect(label: "HOBBITS")
 
       guild_ids = [
-        bilbo, frodo, samwise, meriadoc, peregrin,
-        gandalf, aragorn, legolas, gimli, boromir
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "GUILD")
+        bilbo, frodo, samwise, meriadoc, peregrin, gandalf, aragorn, legolas, gimli, boromir
+      ]
+      |> Enum.map(& to_string(&1.id))
+      #|> IO.inspect(label: "GUILD")
 
-      mordor_ids = [
-        sauron, sarumane
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "MORDOR")
+      mordor_ids = [sauron, sarumane]
+      |> Enum.map(& to_string(&1.id))
+      #|> IO.inspect(label: "MORDOR")
 
       # ROLES
 
@@ -61,20 +63,20 @@ defmodule Rbax.Mock.Seeds do
       {:ok, update} = Entities.create_right(%{name: "update"})
       {:ok, delete} = Entities.create_right(%{name: "delete"})
 
-      manage_ids = [
-        create, read, update, delete
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "MANAGE RIGHTS")
+      manage_ids = [create, read, update, delete]
+      |> Enum.map(& to_string(&1.id))
+      #|> IO.inspect(label: "MANAGE RIGHTS")
 
-      consult_ids = [
-        read
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "MANAGE RIGHTS")
+      consult_ids = [read]
+      |> Enum.map(& to_string(&1.id))
+      #|> IO.inspect(label: "MANAGE RIGHTS")
 
       # OPERATIONS
 
       {:ok, manage} = Entities.create_operation(%{"name" => "manage", "rights" => manage_ids})
       {:ok, _consult} = Entities.create_operation(%{"name" => "consult", "rights" => consult_ids})
 
-      # OBJECTS
+      # RESOURCES
 
       {:ok, subject} = Entities.create_resource(%{name: "Subject"})
       {:ok, role} = Entities.create_resource(%{name: "Role"})
@@ -87,9 +89,9 @@ defmodule Rbax.Mock.Seeds do
 
       # DOMAINS
 
-      rbax_ids = [
-        subject, role, context, operation, right, domain, resource, permission
-      ] |> Enum.map(& to_string(&1.id)) |> IO.inspect(label: "RBAX OBJECTS")
+      rbax_ids = [subject, role, context, operation, right, domain, resource, permission]
+      |> Enum.map(& to_string(&1.id))
+      # |> IO.inspect(label: "RBAX RESOURCES")
 
       {:ok, rbax} = Entities.create_domain(%{"name" => "Rbax", "resources" => rbax_ids})
 
@@ -104,6 +106,7 @@ defmodule Rbax.Mock.Seeds do
           })
         |> Repo.insert!
     end)
+    IO.puts "...END SEED"
   end
 end
 

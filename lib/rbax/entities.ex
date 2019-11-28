@@ -16,19 +16,16 @@ defmodule Rbax.Entities do
   @order_field :name
 
   ########################################
+  ### RUN
+  ########################################
+
+  def run(query), do: Repo.all(query)
+
+  ########################################
   ### SUBJECTS
   ########################################
 
-  @doc """
-  Returns the list of subjects.
-
-  ## Examples
-
-      iex> list_subjects()
-      [%Subject{}, ...]
-
-  """
-  def list_subjects(criteria \\ []) do
+  def list_subjects_query(criteria \\ []) do
     query = from p in Subject
 
     Enum.reduce(criteria, query, fn
@@ -40,7 +37,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of subjects.
+
+  ## Examples
+
+      iex> list_subjects()
+      [%Subject{}, ...]
+
+  """
+  def list_subjects(criteria \\ []) do
+    list_subjects_query(criteria)
     |> Repo.all
   end
 
@@ -187,16 +200,7 @@ defmodule Rbax.Entities do
   ### ROLES
   ########################################
 
-  @doc """
-  Returns the list of roles.
-
-  ## Examples
-
-      iex> list_roles()
-      [%Role{}, ...]
-
-  """
-  def list_roles(criteria \\ []) do
+  def list_roles_query(criteria \\ []) do
     query = from p in Role
 
     Enum.reduce(criteria, query, fn
@@ -208,7 +212,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of roles.
+
+  ## Examples
+
+      iex> list_roles()
+      [%Role{}, ...]
+
+  """
+  def list_roles(criteria \\ []) do
+    list_roles_query(criteria)
     |> Repo.all
   end
 
@@ -342,16 +362,7 @@ defmodule Rbax.Entities do
   ### CONTEXTS
   ########################################
 
-  @doc """
-  Returns the list of contexts.
-
-  ## Examples
-
-      iex> list_contexts()
-      [%Context{}, ...]
-
-  """
-  def list_contexts(criteria \\ []) do
+  def list_contexts_query(criteria \\ []) do
     query = from p in Context
 
     Enum.reduce(criteria, query, fn
@@ -363,7 +374,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of contexts.
+
+  ## Examples
+
+      iex> list_contexts()
+      [%Context{}, ...]
+
+  """
+  def list_contexts(criteria \\ []) do
+    list_contexts_query(criteria)
     |> Repo.all
   end
 
@@ -485,16 +512,7 @@ defmodule Rbax.Entities do
   ### OPERATIONS
   ########################################
 
-  @doc """
-  Returns the list of operations.
-
-  ## Examples
-
-      iex> list_operations()
-      [%Operation{}, ...]
-
-  """
-  def list_operations(criteria \\ []) do
+  def list_operations_query(criteria \\ []) do
     query = from p in Operation
 
     Enum.reduce(criteria, query, fn
@@ -506,7 +524,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of operations.
+
+  ## Examples
+
+      iex> list_operations()
+      [%Operation{}, ...]
+
+  """
+  def list_operations(criteria \\ []) do
+    list_operations_query(criteria)
     |> Repo.all
   end
 
@@ -640,16 +674,7 @@ defmodule Rbax.Entities do
   ### RIGHTS
   ########################################
 
-  @doc """
-  Returns the list of rights.
-
-  ## Examples
-
-      iex> list_rights()
-      [%Right{}, ...]
-
-  """
-  def list_rights(criteria \\ []) do
+  def list_rights_query(criteria \\ []) do
     query = from p in Right
 
     Enum.reduce(criteria, query, fn
@@ -661,7 +686,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of rights.
+
+  ## Examples
+
+      iex> list_rights()
+      [%Right{}, ...]
+
+  """
+  def list_rights(criteria \\ []) do
+    list_rights_query(criteria)
     |> Repo.all
   end
 
@@ -795,16 +836,7 @@ defmodule Rbax.Entities do
   ### DOMAINS
   ########################################
 
-  @doc """
-  Returns the list of domains.
-
-  ## Examples
-
-      iex> list_domains()
-      [%Domain{}, ...]
-
-  """
-  def list_domains(criteria \\ []) do
+  def list_domains_query(criteria \\ []) do
     query = from p in Domain
 
     Enum.reduce(criteria, query, fn
@@ -816,7 +848,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of domains.
+
+  ## Examples
+
+      iex> list_domains()
+      [%Domain{}, ...]
+
+  """
+  def list_domains(criteria \\ []) do
+    list_domains_query(criteria)
     |> Repo.all
   end
 
@@ -947,19 +995,10 @@ defmodule Rbax.Entities do
   end
 
   ########################################
-  ### OBJECTS
+  ### RESOURCES
   ########################################
 
-  @doc """
-  Returns the list of resources.
-
-  ## Examples
-
-      iex> list_resources()
-      [%Resource{}, ...]
-
-  """
-  def list_resources(criteria \\ []) do
+  def list_resources_query(criteria \\ []) do
     query = from p in Resource
 
     Enum.reduce(criteria, query, fn
@@ -971,7 +1010,23 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
     end)
+  end
+
+  @doc """
+  Returns the list of resources.
+
+  ## Examples
+
+      iex> list_resources()
+      [%Resource{}, ...]
+
+  """
+  def list_resources(criteria \\ []) do
+    list_resources_query(criteria)
     |> Repo.all
   end
 

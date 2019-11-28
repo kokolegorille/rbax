@@ -23,6 +23,8 @@ defmodule RbaxWeb.Router do
     resources("/sessions", SessionController, only: [:new, :create, :delete])
 
     scope "/rbax", Rbax do
+      get "/not_authorized", HomeController, :not_authorized
+      #
       resources("/subjects", SubjectController)
       resources("/roles", RoleController)
       resources("/contexts", ContextController, except: [:show])

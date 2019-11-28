@@ -54,7 +54,8 @@ defmodule Rbax.Engine do
         # Collection actions :
         right_names = rights_for(subject, resource)
         |> Enum.map(& &1.name)
-        |> IO.inspect(label: "RIGHTS")
+        # |> IO.inspect(label: "RIGHTS")
+
         case action do
           :index -> Enum.member?(right_names, "read")
           :new -> Enum.member?(right_names, "create")
@@ -64,7 +65,8 @@ defmodule Rbax.Engine do
       object ->
         right_names = rights_for(subject, object)
         |> Enum.map(& &1.name)
-        |> IO.inspect(label: "RIGHTS")
+        # |> IO.inspect(label: "RIGHTS")
+
         case action do
           :show -> Enum.member?(right_names, "read")
           :edit -> Enum.member?(right_names, "update")
