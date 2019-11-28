@@ -59,23 +59,23 @@ defmodule Rbax.Engine do
         # Collection actions :
         right_names = rights_for(subject, resource)
         |> Enum.map(& &1.name)
-        |> IO.inspect()
+        |> IO.inspect(label: "RIGHTS")
 
         case action do
           :index -> Enum.member?(right_names, "read")
-          :new -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
-          :create -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          :new -> Enum.member?(right_names, "create")
+          :create -> Enum.member?(right_names, "create")
           _ -> false
         end
       object ->
         right_names = rights_for(subject, object)
         |> Enum.map(& &1.name)
-        |> IO.inspect()
+        |> IO.inspect(label: "RIGHTS")
 
         case action do
           :show -> Enum.member?(right_names, "read")
-          :edit -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
-          :update -> Enum.member?(right_names, "read") && Enum.member?(right_names, "write")
+          :edit -> Enum.member?(right_names, "update")
+          :update -> Enum.member?(right_names, "update")
           :delete -> Enum.member?(right_names, "delete")
           _ -> false
         end
@@ -90,12 +90,12 @@ defmodule Rbax.Engine do
     # collect permissions for object->object
     perms = o
     |> get_object()
-    |> permissions_for_object(opts)
+    |> permissions_for_object(opts)   # TODO : FIXBUG... SHOULD NOT EXECUTE RULES WHEN RESOURCE!
 
     # Intersection of subject.permissions with perms from object, or domain
     tmp = subject.permissions -- perms
     (subject.permissions -- tmp)
-    |> IO.inspect(label: "PERMS")
+    # |> IO.inspect(label: "PERMS")
   end
 
   defp permissions_for_domain_name(domains, domain_name) do

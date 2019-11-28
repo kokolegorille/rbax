@@ -18,3 +18,18 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## Dataloader
+
+{:dataloader, "~> 1.0"}
+
+Example
+=======
+
+iex> source = Dataloader.Ecto.new(Rbax.Repo)
+iex> loader = Dataloader.new |> Dataloader.add_source(Rbax.Entities, source)
+iex> subjects = Rbax.list_subjects
+iex> loader = Enum.reduce(subjects, loader, fn subject, acc -> 
+    Dataloader.load(acc, Rbax.Entities, :roles, subject) 
+  end)
+iex> loader |> Dataloader.run

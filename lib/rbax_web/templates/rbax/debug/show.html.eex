@@ -11,4 +11,7 @@
   <%= for permission <- @permissions do %>
     <%= render "permission.html", permission: permission %>
   <% end %>
+
+   <h4>Rights</h4>
+   <%= inspect Enum.map(@rights, & &1.name) %>
 </div>

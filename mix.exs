@@ -45,6 +45,7 @@ defmodule Rbax.MixProject do
       {:plug_cowboy, "~> 2.0"},
       #
       {:pbkdf2_elixir, "~> 1.0"},
+      {:dataloader, "~> 1.0"},
     ]
   end
 
