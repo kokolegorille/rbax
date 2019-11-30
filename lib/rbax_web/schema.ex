@@ -136,6 +136,32 @@ defmodule RbaxWeb.Schema do
       arg :limit, :integer
       resolve &Resolvers.EntitiesResolver.permissions/3
     end
+
+    @desc "Get the currently signed-in user"
+    field :me, :subject do
+      resolve &Resolvers.AccountsResolver.me/3
+    end
+  end
+
+  mutation do
+    @desc "Create a user account"
+    field :signup, :session do
+      arg :name, non_null(:string)
+      arg :password, non_null(:string)
+      resolve &Resolvers.AccountsResolver.signup/3
+    end
+
+    @desc "Sign in a user"
+    field :signin, :session do
+      arg :name, non_null(:string)
+      arg :password, non_null(:string)
+      resolve &Resolvers.AccountsResolver.signin/3
+    end
+  end
+
+  object :session do
+    field :subject, non_null(:subject)
+    field :token, non_null(:string)
   end
 
   # TYPES
