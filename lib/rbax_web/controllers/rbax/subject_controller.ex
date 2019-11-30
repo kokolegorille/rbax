@@ -1,6 +1,8 @@
 defmodule RbaxWeb.Rbax.SubjectController do
   use RbaxWeb, :controller
 
+  import Ecto.Query, warn: false
+
   alias Rbax.Entities
   alias Entities.Subject
 
@@ -31,8 +33,20 @@ defmodule RbaxWeb.Rbax.SubjectController do
     # subjects =  Entities.list_subjects(order: :asc)
     # |> preload_roles()
 
+    # TODO: RETRIEVE FILTERS FROM CONTEXTS!
+    filters = ["where: o.id == ^s.id"]
+
     subjects =  Entities.list_subjects_query(order: :asc, preload: :roles)
+    |> IO.inspect(label: "QUERY")
+    |> Entities.filter_list(filters, conn.assigns.current_user)
     |> Entities.run()
+
+    # subjects =  Entities.list_subjects_query(order: :asc, preload: :roles)
+    # |> IO.inspect(label: "QUERY")
+    # |> (fn q ->
+    #   from p in q, where: p.id==2
+    # end).()
+    # |> Entities.run()
 
     render(conn, "index.html", subjects: subjects)
   end

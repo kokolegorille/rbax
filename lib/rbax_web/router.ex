@@ -13,6 +13,7 @@ defmodule RbaxWeb.Router do
   end
 
   pipeline :api do
+    plug CORSPlug, origin: "http://localhost:8080"
     plug :accepts, ["json"]
   end
 
@@ -34,6 +35,23 @@ defmodule RbaxWeb.Router do
       resources("/resources", ResourceController)
       resources("/permissions", PermissionController, except: [:show])
     end
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    # Note: downloaded from CDN!
+    forward "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: RbaxWeb.Schema,
+      json_codec: Jason #,
+      # socket: RbaxWeb.UserSocket
+
+    forward "/",
+      Absinthe.Plug,
+      schema: RbaxWeb.Schema,
+      json_codec: Jason #,
+      # socket: RbaxWeb.UserSocket
   end
 
   # Other scopes may use custom stacks.

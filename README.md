@@ -133,3 +133,167 @@ defp get_object(o) when is_map(o) do
   |> List.last
   |> Entities.get_object_by_name()
 end
+
+
+## TRY TO EXECUTE STRING QUERY
+
+iex(12)> Entities.list_subjects_query |> (fn q -> from o in q, where: fragment("(?).id", o) == ^s.id end).() |> Rbax.Repo.all     
+[debug] QUERY OK source="subjects" db=1.4ms
+SELECT s0."id", s0."name", s0."password_hash", s0."inserted_at", s0."updated_at" FROM "subjects" AS s0 WHERE ((s0).id = $1) [2]
+[
+  %Rbax.Entities.Subject{
+    __meta__: #Ecto.Schema.Metadata<:loaded, "subjects">,
+    id: 2,
+    inserted_at: ~N[2019-11-28 05:37:08],
+    name: "bilbo",
+    password: nil,
+    password_hash: "$pbkdf2-sha512$160000$j.TGj6347gYzhgJcTM7yWw$Cybfw0WwS9QHaEFiSoJW/kDy/yRRIgzuSY7AXpcVo8wPo25Km/ysZr4TDSqMSm.DvZgDvP1FdvoA8vQu3gYxCw",
+    permissions: #Ecto.Association.NotLoaded<association :permissions is not loaded>,
+    roles: #Ecto.Association.NotLoaded<association :roles is not loaded>,
+    updated_at: ~N[2019-11-28 12:45:46]
+  }
+]
+
+iex(13)> Entities.list_subjects_query |> (fn q -> from o in q, where: fragment("(?).id=(?)", o, ^id) end).() |> Rbax.Repo.all
+
+iex(17)> Entities.list_subjects_query |> (fn q -> from o in q, where: fragment("(?).id=(?)", o, ^s.id) end).() |> Rbax.Repo.all
+
+iex(19)> {eval, _} = Code.eval_string("s.id", s: s)
+iex(20)> Entities.list_subjects_query |> (fn q -> from o in q, where: fragment("(?).id=(?)", o, ^eval) end).() |> Rbax.Repo.all
+iex(29)> frodo = "frodo"
+"frodo"
+iex(30)> Entities.list_subjects_query |> (fn q -> from o in q, where: fragment("(?).id=(?)", o, ^eval) or fragment("(?).name=(?)", o, ^frodo) end).() |> Rbax.Repo.all
+
+
+## QUESTION
+
+Hello everyone,
+
+I am trying to insert a dynamic filter to an ecto query.
+
+After importing Ecto.Query in the console, I was able to run those commands.
+
+```elixir
+iex> {eval, _} = Code.eval_string("s.id", s: current_user)
+iex> Entities.list_subjects_query |> (fn q -> 
+  from o in q, where: fragment("(?).owner_id=(?)", o, ^eval) 
+end).() |> Rbax.Repo.all
+```
+
+The idea is to filter dynamically a list, for the current user, on a list of resources, based on a filter, and bindings.
+
+```elixir
+filter = "(?).owner_id=(?)"
+bindings = "s.id"
+```
+
+For context, it is an RBAC system for Phoenix, where I would like to filter resource for a given user, this example is a rule for listing only resource owned by user.
+
+While it is working, my question is how to secure this? Because using Code.eval_string is not safe, and fragment too.
+
+I was thinking of parsing the filter and bindings with leex/yecc... Is there an easier way?
+
+Thanks for taking time
+
+# Absinthe
+
+```
+# GraphQL
+{:absinthe, "~> 1.4"},
+{:absinthe_plug, "~> 1.4"},
+{:absinthe_ecto, "~> 0.1.3"},
+{:absinthe_relay, "~> 1.4"},
+{:absinthe_phoenix, "~> 1.4"},
+{:dataloader, "~> 1.0"},
+#
+{:cors_plug, "~> 2.0"},
+```
+
+* Add lib/rbax/schema.ex
+* Add lib/rbax/schema/
+* Add lib/rbax/schema/entities_types.ex
+* Add lib/rbax/schema/accounts_types.ex
+
+* Update router
+
+```
+  pipeline :api do
+    plug CORSPlug, origin: "http://localhost:8080"
+    plug :accepts, ["json"]
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    # Note: downloaded from CDN!
+    forward "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: RbaxWeb.Schema,
+      json_codec: Jason #,
+      # socket: RbaxWeb.UserSocket
+
+    forward "/",
+      Absinthe.Plug,
+      schema: RbaxWeb.Schema,
+      json_codec: Jason #,
+      # socket: RbaxWeb.UserSocket
+  end
+```
+
+* Update contexts
+
+```
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
+  end
+```
+
+* Update schema
+
+```
+  # Dataloader
+  # ==============================
+
+  def context(ctx) do
+    loader =
+      Dataloader.new
+      |> Dataloader.add_source(Entities, Entities.datasource())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
+```
+
+## Sample query
+
+{
+	subjects(limit: 2) {
+    name
+    roles {
+      name
+      permissions {
+        role {name}
+        context {name}
+        operation {
+          name
+          rights {
+            name
+          }
+        }
+        domain {
+          name
+          resources {
+            name
+          }
+        }
+      }
+    }
+  }
+}

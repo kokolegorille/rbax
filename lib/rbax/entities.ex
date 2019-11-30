@@ -16,10 +16,16 @@ defmodule Rbax.Entities do
   @order_field :name
 
   ########################################
-  ### RUN
+  ### HELPERS
   ########################################
 
   def run(query), do: Repo.all(query)
+
+  # This should apply filters from contexts to index list
+  def filter_list(query, filters, s) do
+    IO.inspect {filters, s}
+    query
+  end
 
   ########################################
   ### SUBJECTS
@@ -1326,6 +1332,18 @@ defmodule Rbax.Entities do
   def select_contexts, do: Repo.all(from(item in Context, select: {item.name, item.id}))
   def select_operations, do: Repo.all(from(item in Operation, select: {item.name, item.id}))
   def select_domains, do: Repo.all(from(item in Domain, select: {item.name, item.id}))
+
+  ########################################
+  ### DATALOADER
+  ########################################
+
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
+  end
 
   ########################################
   ### DELEGATES

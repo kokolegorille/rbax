@@ -45,7 +45,15 @@ defmodule Rbax.MixProject do
       {:plug_cowboy, "~> 2.0"},
       #
       {:pbkdf2_elixir, "~> 1.0"},
+      # GraphQL
+      {:absinthe, "~> 1.4"},
+      {:absinthe_plug, "~> 1.4"},
+      {:absinthe_ecto, "~> 0.1.3"},
+      {:absinthe_relay, "~> 1.4"},
+      {:absinthe_phoenix, "~> 1.4"},
       {:dataloader, "~> 1.0"},
+      #
+      {:cors_plug, "~> 2.0"},
     ]
   end
 

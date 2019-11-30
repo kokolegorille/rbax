@@ -22,6 +22,6 @@ defmodule RbaxWeb.Plugs.Rbax do
     |> String.split(".")
     |> List.last
     |> String.replace("Controller", "")
-    |> IO.inspect(label: "CONTROLLER")
+    # |> IO.inspect(label: "CONTROLLER")
   end
 end

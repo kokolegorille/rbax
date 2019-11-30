@@ -6,6 +6,25 @@ defmodule Rbax.Engine do
   @guest_role "guest"
   @readable_name "read"
 
+  # Returns a list of contexts filters for a subject or nil
+  def filters_for(subject_or_nil, resource_name, opts \\ [])
+  def filters_for(%Subject{} = s, resource_name, opts) do
+    get_permissions(s, resource_name, opts)
+    |> Enum.map(& &1.context.filter)
+  end
+  def filters_for(nil, resource_name, opts) do
+    case Entities.get_role_by_name(@guest_role) do
+      nil -> []
+      %Role{} = role ->
+        get_permissions(role, resource_name, opts)
+        |> Enum.map(fn permission ->
+          permission.context.filter
+        end)
+    end
+  end
+
+  # Returns the list of permissions for a subject, or nil
+  # on object (:show, :edit, :update, :delete), or resource_name(:index, :new, :create)
   def permissions_for(subject_or_nil, object_or_resource_name, opts \\ [])
   def permissions_for(%Subject{} = s, object_or_resource_name, opts) do
     get_permissions(s, object_or_resource_name, opts)
@@ -18,6 +37,7 @@ defmodule Rbax.Engine do
     end
   end
 
+  # Returns the list of resources with read rights for a subject, or nil
   def readable_resources(%Subject{} = s) do
     subject = preload_permissions(s)
     get_permissions_resources(subject.permissions)
@@ -32,6 +52,8 @@ defmodule Rbax.Engine do
     end
   end
 
+  # Returns the list of rights for a subject, or nil
+  # on object (:show, :edit, :update, :delete), or resource_name(:index, :new, :create)
   def rights_for(subject_or_nil, object_or_resource_name, opts \\ [])
   def rights_for(%Subject{} = s, object_or_resource_name, opts) do
     get_permissions(s, object_or_resource_name, opts)
@@ -48,6 +70,7 @@ defmodule Rbax.Engine do
     end
   end
 
+  # Returns true if subject can execute action
   def can?(subject, resource, action, object) do
     case object do
       nil ->
