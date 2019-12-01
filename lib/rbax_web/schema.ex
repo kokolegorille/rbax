@@ -50,6 +50,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of subjects"
     field :subjects, list_of(:subject) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.subjects/3
     end
 
@@ -62,6 +65,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of roles"
     field :roles, list_of(:role) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.roles/3
     end
 
@@ -74,6 +80,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of contexts"
     field :contexts, list_of(:context) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.contexts/3
     end
 
@@ -86,6 +95,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of operations"
     field :operations, list_of(:operation) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.operations/3
     end
 
@@ -98,6 +110,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of rights"
     field :rights, list_of(:right) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.rights/3
     end
 
@@ -110,6 +125,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of domains"
     field :domains, list_of(:domain) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.domains/3
     end
 
@@ -122,6 +140,9 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of resources"
     field :resources, list_of(:resource) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
+      arg :filter, :filter
       resolve &Resolvers.EntitiesResolver.resources/3
     end
 
@@ -134,6 +155,8 @@ defmodule RbaxWeb.Schema do
     @desc "Get a list of permissions"
     field :permissions, list_of(:permission) do
       arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
       resolve &Resolvers.EntitiesResolver.permissions/3
     end
 

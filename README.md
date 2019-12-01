@@ -271,7 +271,7 @@ Thanks for taking time
   end
 ```
 
-## Sample query
+## Sample queries
 
 {
 	subjects(limit: 2) {
@@ -293,6 +293,30 @@ Thanks for taking time
             name
           }
         }
+      }
+    }
+  }
+}
+
+{
+  permissions {
+    role {
+      name
+      subjects {
+        name
+      }
+    }
+    context {name}
+    operation {
+      name
+      rights {
+        name
+      }
+    }
+    domain {
+      name
+      resources {
+        name
       }
     }
   }

@@ -16,6 +16,7 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :roles, list_of(:role) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)
@@ -32,12 +33,16 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :subjects, list_of(:subject) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)
     end
 
     field :permissions, list_of(:permission) do
+      arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
       resolve dataloader(Entities)
     end
 
@@ -51,6 +56,9 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
     field :name, :string
 
     field :permissions, list_of(:permission) do
+      arg :limit, :integer
+      arg :offset, :integer
+      arg :order, type: :sort_order, default_value: :asc
       resolve dataloader(Entities)
     end
 
@@ -65,6 +73,7 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :rights, list_of(:right) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)
@@ -85,6 +94,7 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :operations, list_of(:operation) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)
@@ -101,6 +111,7 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :resources, list_of(:resource) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)
@@ -121,6 +132,7 @@ defmodule RbaxWeb.Schema.EntitiesTypes do
 
     field :domains, list_of(:domain) do
       arg :limit, :integer
+      arg :offset, :integer
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :filter
       resolve dataloader(Entities)

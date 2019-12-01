@@ -38,14 +38,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -213,14 +213,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -375,14 +375,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -525,14 +525,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -687,14 +687,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -849,14 +849,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -1011,14 +1011,14 @@ defmodule Rbax.Entities do
       {:limit, limit}, query ->
         from p in query, limit: ^limit
 
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
-
-      {:preload, preloads}, query ->
-        from p in query, preload: ^preloads
     end)
   end
 
@@ -1166,6 +1166,21 @@ defmodule Rbax.Entities do
   ### PERMISSIONS
   ########################################
 
+  def list_permissions_query(criteria \\ []) do
+    query = from p in Permission
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:offset, offset}, query ->
+        from p in query, offset: ^offset
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+  end
+
   @doc """
   Returns the list of permissions.
 
@@ -1175,8 +1190,9 @@ defmodule Rbax.Entities do
       [%Permission{}, ...]
 
   """
-  def list_permissions do
-    Repo.all(Permission)
+  def list_permissions(criteria \\ []) do
+    list_permissions_query(criteria)
+    |> Repo.all()
   end
 
   @doc """
@@ -1358,11 +1374,9 @@ defmodule Rbax.Entities do
 
   defp filter_with(filters, query) do
     Enum.reduce(filters, query, fn
-      {:matching, term}, query ->
-        pattern = "%#{term}%"
-        from q in query,
-          where:
-            ilike(q.name, ^pattern)
+      {:name, name}, query ->
+        pattern = "%#{name}%"
+        from q in query, where: ilike(q.name, ^pattern)
     end)
   end
 end
