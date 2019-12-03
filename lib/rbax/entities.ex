@@ -4,6 +4,8 @@ defmodule Rbax.Entities do
   """
 
   import Ecto.Query, warn: false
+  require Logger
+
   alias Rbax.Repo
   alias Rbax.Entities.{
     Subject, Role,
@@ -46,6 +48,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -221,6 +230,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -383,6 +399,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -533,6 +556,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -695,6 +725,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -857,6 +894,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -1019,6 +1063,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, ^@order_field}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 
@@ -1178,6 +1229,13 @@ defmodule Rbax.Entities do
 
       {:order, order}, query ->
         from p in query, order_by: [{^order, :id}]
+
+      {:preload, preloads}, query ->
+        from p in query, preload: ^preloads
+
+      arg, query ->
+        Logger.info("args is not matched in query #{inspect arg}")
+        query
     end)
   end
 

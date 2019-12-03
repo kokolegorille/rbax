@@ -20,7 +20,7 @@ defmodule Rbax.MixProject do
   def application do
     [
       mod: {Rbax.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:sasl, :logger, :runtime_tools, :observer, :wx]
     ]
   end
 
@@ -54,6 +54,11 @@ defmodule Rbax.MixProject do
       {:dataloader, "~> 1.0"},
       #
       {:cors_plug, "~> 2.0"},
+      #
+      {:prometheus_ex, "~> 3.0"},
+      {:prometheus_plugs, "~> 1.1"},
+      {:telemetry, "~> 0.4.1"},
+      {:recon, "~> 2.5", only: [:test, :dev]},
     ]
   end
 

@@ -5,6 +5,9 @@ defmodule RbaxWeb.Endpoint do
     websocket: true,
     longpoll: false
 
+  # Metrics
+  plug Metrics.PlugExporter
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest

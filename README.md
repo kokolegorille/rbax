@@ -321,3 +321,15 @@ Thanks for taking time
     }
   }
 }
+
+# Recon
+
+On note la syntaxe Erlang...
+
+recon_trace:calls({queue, new, '_'}, 1).
+
+On traduit en Elixir...
+
+'_' -> :_
+
+:recon_trace.calls {RbaxWeb.PageController, :_, :_}, 100, [{:scope, :local}]
