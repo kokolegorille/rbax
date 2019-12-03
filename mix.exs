@@ -20,7 +20,7 @@ defmodule Rbax.MixProject do
   def application do
     [
       mod: {Rbax.Application, []},
-      extra_applications: [:sasl, :logger, :runtime_tools, :observer, :wx]
+      extra_applications: [:logger, :runtime_tools, :observer, :wx]
     ]
   end
 
